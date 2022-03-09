@@ -1,0 +1,56 @@
+# Copyright (c) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//build/ohos_var.gni")
+import("//foundation/distributedhardware/distributedscreen/distributedscreen.gni")
+
+ohos_shared_library("distributed_screen_handler") {
+    include_dirs = [
+        "//third_party/json/include",
+        "${windowmanager_path}/interfaces/innerkits/dm",
+        "${mediastandard_path}/interfaces/innerkits/native/media/include",
+        "${fwk_common_path}/utils/include",
+    ]
+
+    include_dirs += [
+        "include",
+        "${common_path}/include",
+    ]
+
+    sources = [
+        "src/dscreen_handler.cpp",
+    ]
+
+    deps = [
+        "//utils/native/base:utils",
+        "${mediastandard_path}/interfaces/innerkits/native/media:media_client",
+        "${windowmanager_path}/interfaces/innerkits:wm_interface",
+        "${windowmanager_path}/dm:libdm",
+        "${common_path}:distributed_screen_utils",
+    ]
+
+    defines = [
+        "HI_LOG_ENABLE",
+        "DH_LOG_TAG=\"dscreenhandler\"",
+        "LOG_DOMAIN=0xD004100",
+    ]
+
+    external_deps = [
+        "hiviewdfx_hilog_native:libhilog",
+    ]
+
+    subsystem_name = "distributedhardware"
+
+    part_name = "distributed_screen"
+}

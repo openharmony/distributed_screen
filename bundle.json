@@ -1,0 +1,87 @@
+{
+    "name":"@ohos/distributed_screen",
+    "description":"distributed hardware screen",
+    "version":"3.1",
+    "author":{},
+    "repository":"https://gitee.com/openharmony/distributed_screen",
+    "license":"Apache License 2.0",
+    "publishAs":"code-segment",
+    "segment":{
+        "destPath":"foundation/distributedhardware/distributedscreen/"
+    },
+    "dirs":{},
+    "scripts":{},
+    "component":{
+        "name":"distributed_screen",
+        "subsystem":"distributedhardware",
+        "syscap":[
+            "SystemCapability.distributedhardware.distributed_screen"
+        ],
+        "features":[],
+        "adapted_system_type":[
+            "standard"
+        ],
+        "rom":"2000k",
+        "ram":"6M",
+        "deps":{
+            "components":[
+                "appexecfwk_standard",
+                "eventhandler",
+                "hiviewdfx_hilog_native",
+                "ipc",
+                "safwk",
+                "samgr_standard",
+                "dsoftbus_standard",
+                "utils_base",
+                "graphic_standard",
+                "distributed_hardware_fwk",
+                "multimedia_media_standard"
+            ],
+            "third_party":[
+                "json"
+            ]
+        },
+        "build":{
+            "sub_component":[
+                "//foundation/distributedhardware/distributedscreen/common:distributed_screen_utils",
+                "//foundation/distributedhardware/distributedscreen/interfaces/innerkits/native_cpp/screen_sink:distributed_screen_sink_sdk",
+                "//foundation/distributedhardware/distributedscreen/interfaces/innerkits/native_cpp/screen_source:distributed_screen_source_sdk",
+                "//foundation/distributedhardware/distributedscreen/services/screenclient:distributed_screen_client",
+                "//foundation/distributedhardware/distributedscreen/screenhandler:distributed_screen_handler",
+                "//foundation/distributedhardware/distributedscreen/services/screentransport/screensinktrans:distributed_screen_sinktrans",
+                "//foundation/distributedhardware/distributedscreen/services/screentransport/screensourcetrans:distributed_screen_sourcetrans",
+                "//foundation/distributedhardware/distributedscreen/services/screenservice/sinkservice:distributed_screen_sink",
+                "//foundation/distributedhardware/distributedscreen/services/screenservice/sourceservice:distributed_screen_source",
+                "//foundation/distributedhardware/distributedscreen/sa_profile:dscreen_sa_profile"
+            ],
+            "inner_kits":[
+                {
+                    "type": "so",
+                    "name": "//foundation/distributedhardware/distributedscreen/interfaces/innerkits/native_cpp/screen_sink:distributed_screen_sink_sdk",
+                    "header": {
+                        "header_base": "//foundation/distributedhardware/distributedscreen/interfaces/innerkits/native_cpp/screen_sink/include",
+                        "header_files": [
+                            "idscreen_sink.h"
+                        ]
+                    }
+                },
+                {
+                    "type": "so",
+                    "name": "//foundation/distributedhardware/distributedscreen/interfaces/innerkits/native_cpp/screen_source:distributed_screen_source_sdk",
+                    "header": {
+                        "header_base": "//foundation/distributedhardware/distributedscreen/interfaces/innerkits/native_cpp/screen_source/include",
+                        "header_files": [
+                            "idscreen_source.h"
+                        ]
+                    }
+                }
+            ],
+            "test":[
+                "//foundation/distributedhardware/distributedscreen/services/screentransport/test/unittest:screen_transport_test",
+                "//foundation/distributedhardware/distributedscreen/services/softbusadapter/test/unittest:SoftBusAdapterTest",
+                "//foundation/distributedhardware/distributedscreen/services/screenclient/test/unittest:screen_client_test",
+                "//foundation/distributedhardware/distributedscreen/services/common/test/unittest:service_common_test"
+            ]
+        }
+    }
+}

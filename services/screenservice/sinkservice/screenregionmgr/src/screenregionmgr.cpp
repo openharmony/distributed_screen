@@ -1,0 +1,199 @@
+/*
+ * Copyright (c) 2022 Huawei Device Co., Ltd.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#include "screenregionmgr.h"
+
+#include "display_manager.h"
+#include "if_system_ability_manager.h"
+#include "iservice_registry.h"
+#include "nlohmann/json.hpp"
+
+#include "dscreen_constants.h"
+#include "dscreen_errcode.h"
+#include "dscreen_log.h"
+#include "dscreen_maprelation.h"
+#include "dscreen_util.h"
+#include "idscreen_source.h"
+#include "screen_client.h"
+#include "screen_client_common.h"
+
+using json = nlohmann::json;
+
+namespace OHOS {
+namespace DistributedHardware {
+IMPLEMENT_SINGLE_INSTANCE(ScreenRegionManager);
+ScreenRegionManager::ScreenRegionManager()
+{
+    DHLOGI("ScreenRegionManager");
+}
+
+ScreenRegionManager::~ScreenRegionManager()
+{
+    DHLOGI("~ScreenRegionManager");
+}
+
+int32_t ScreenRegionManager::ReleaseAllRegions()
+{
+    DHLOGI("ScreenRegionManager::ReleaseAllRegion");
+    std::lock_guard<std::mutex> lock(screenRegionsMtx_);
+    for (const auto &item : screenRegions_) {
+        std::shared_ptr<ScreenRegion> screenRegion = item.second;
+        if (!screenRegion) {
+            continue;
+        }
+        int32_t ret = screenRegion->Stop();
+        if (ret != DH_SUCCESS) {
+            DHLOGE("Release region failed, remoteDevId: %s, err: %d",
+                GetAnonyString(screenRegion->GetRemoteDevId()).c_str(), ret);
+        }
+    }
+    screenRegions_.clear();
+    return DH_SUCCESS;
+}
+
+void ScreenRegionManager::HandleDScreenNotify(const std::string &remoteDevId, int32_t eventCode,
+    const std::string &eventContent)
+{
+    DHLOGI("HandleDScreenNotify, remoteDevId: %s, eventCode: %d", GetAnonyString(remoteDevId).c_str(), eventCode);
+    if (eventCode == NOTIFY_SINK_SETUP) {
+        HandleNotifySetUp(remoteDevId, eventContent);
+        return;
+    }
+    DHLOGE("invalid event.");
+}
+
+void ScreenRegionManager::HandleNotifySetUp(const std::string &remoteDevId, const std::string &eventContent)
+{
+    DHLOGI("HandleNotifySetUp, remoteDevId: %s", GetAnonyString(remoteDevId).c_str());
+    json eventContentJson = json::parse(eventContent, nullptr, false);
+    if (eventContentJson.is_discarded()) {
+        DHLOGE("HandleNotifySetUp, eventJsonContent is invalid.");
+        NotifyRemoteSourceSetUpResult(remoteDevId, "", ERR_DH_SCREEN_SA_SCREENREGION_SETUP_FAIL, "");
+        return;
+    }
+
+    if (!eventContentJson.contains(KEY_SCREEN_ID) || !eventContentJson.contains(KEY_DH_ID) ||
+        !eventContentJson.contains(KEY_VIDEO_PARAM) || !eventContentJson.contains(KEY_MAPRELATION)) {
+        DHLOGE("HandleNotifySetUp, eventJsonContent is invalid.");
+        NotifyRemoteSourceSetUpResult(remoteDevId, "", ERR_DH_SCREEN_SA_SCREENREGION_SETUP_FAIL, "");
+        return;
+    }
+
+    uint64_t screenId = eventContentJson[KEY_SCREEN_ID];
+    std::string dhId = eventContentJson[KEY_DH_ID];
+    std::shared_ptr<VideoParam> videoParam =
+        std::make_shared<VideoParam>(eventContentJson[KEY_VIDEO_PARAM].get<VideoParam>());
+    std::shared_ptr<DScreenMapRelation> mapRelation =
+        std::make_shared<DScreenMapRelation>(eventContentJson[KEY_MAPRELATION].get<DScreenMapRelation>());
+
+    uint64_t displayId = Rosen::DisplayManager::GetInstance().GetDefaultDisplayId();
+    std::shared_ptr<ScreenRegion> screenRegion = std::make_shared<ScreenRegion>(remoteDevId, screenId, displayId);
+    screenRegion->SetVideoParam(videoParam);
+    screenRegion->SetMapRelation(mapRelation);
+
+    int32_t ret = DH_SUCCESS;
+    {
+        std::lock_guard<std::mutex> lock(screenRegionsMtx_);
+        if (screenRegions_.count(remoteDevId) != 0) {
+            ret = screenRegions_[remoteDevId]->Stop();
+        }
+
+        if (ret != DH_SUCCESS) {
+            DHLOGE("screenRegion stop failed, remoteDevId: %s, err: %d",
+                GetAnonyString(screenRegions_[remoteDevId]->GetRemoteDevId()).c_str(), ret);
+            NotifyRemoteSourceSetUpResult(remoteDevId, dhId, ERR_DH_SCREEN_SA_SCREENREGION_SETUP_FAIL, "");
+            return;
+        }
+        screenRegions_[remoteDevId] = screenRegion;
+    }
+
+    ret = screenRegion->SetUp();
+    if (ret != DH_SUCCESS) {
+        DHLOGE("screen region start failed");
+        NotifyRemoteSourceSetUpResult(remoteDevId, dhId, ERR_DH_SCREEN_SA_SCREENREGION_SETUP_FAIL, "");
+        return;
+    }
+
+    ret = screenRegion->Start();
+    if (ret != DH_SUCCESS) {
+        DHLOGE("screen region start failed");
+        NotifyRemoteSourceSetUpResult(remoteDevId, dhId, ERR_DH_SCREEN_SA_SCREENREGION_START_FAIL, "");
+        return;
+    }
+
+    NotifyRemoteSourceSetUpResult(remoteDevId, dhId, DH_SUCCESS, "");
+}
+
+void ScreenRegionManager::NotifyRemoteSourceSetUpResult(const std::string &remoteDevId, const std::string &dhId,
+    int32_t errCode, const std::string &errContent)
+{
+    DHLOGI("NotifyRemoteSourceSetUpResult, sourceDevId: %s, dhId: %s, errCode: %d",
+        GetAnonyString(remoteDevId).c_str(), GetAnonyString(dhId).c_str(), errCode);
+    int32_t eventCode = NOTIFY_SOURCE_SETUP_RESULT;
+
+    json eventContentJson;
+    eventContentJson[KEY_DH_ID] = dhId;
+    eventContentJson[KEY_ERR_CODE] = errCode;
+    eventContentJson[KEY_ERR_CONTENT] = errContent;
+
+    std::string eventContent = eventContentJson.dump();
+
+    NotifyRemoteScreenService(remoteDevId, dhId, eventCode, eventContent);
+}
+
+int32_t ScreenRegionManager::NotifyRemoteScreenService(const std::string &remoteDevId, const std::string &dhId,
+    int32_t eventCode, const std::string &eventContent)
+{
+    DHLOGI("Notify remote source screen service, remote devId: %s, eventCode: %d",
+        GetAnonyString(remoteDevId).c_str(), eventCode);
+    sptr<IDScreenSource> remoteSourceSA = GetDScreenSourceSA(remoteDevId);
+    if (!remoteSourceSA) {
+        DHLOGE("get remote source sa failed.");
+        return ERR_DH_SCREEN_SA_GET_REMOTE_SOURCE_SERVICE_FAIL;
+    }
+    std::string localDevId;
+    int32_t ret = GetLocalDeviceNetworkId(localDevId);
+    if (ret != DH_SUCCESS) {
+        DHLOGE("notify remote screen service failed, cannot get local device id");
+        return ret;
+    }
+    remoteSourceSA->DScreenNotify(localDevId, eventCode, eventContent);
+    return DH_SUCCESS;
+}
+
+sptr<IDScreenSource> ScreenRegionManager::GetDScreenSourceSA(const std::string &devId)
+{
+    DHLOGI("GetDScreenSourceSA, devId: %s", GetAnonyString(devId).c_str());
+    sptr<ISystemAbilityManager> samgr =
+        SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
+    if (samgr == nullptr) {
+        DHLOGE("Failed to get system ability mgr.");
+        return nullptr;
+    }
+    auto remoteObject = samgr->GetSystemAbility(DISTRIBUTED_HARDWARE_SCREEN_SOURCE_SA_ID, devId);
+    if (remoteObject == nullptr) {
+        DHLOGE("remoteObject is null");
+        return nullptr;
+    }
+
+    sptr<IDScreenSource> remoteSourceSA = iface_cast<IDScreenSource>(remoteObject);
+    if (remoteSourceSA == nullptr) {
+        DHLOGE("Failed to get remote dscreen source sa");
+        return nullptr;
+    }
+    return remoteSourceSA;
+}
+} // namespace DistributedHardware
+} // namespace OHOS
