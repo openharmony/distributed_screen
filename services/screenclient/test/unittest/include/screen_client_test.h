@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_SCREEN_CLIENT_TEST_H
+#define OHOS_SCREEN_CLIENT_TEST_H
+
 #include <gtest/gtest.h>
 
 #include "dscreen_errcode.h"
@@ -29,5 +32,6 @@ public:
     void SetUp();
     void TearDown();
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
+#endif

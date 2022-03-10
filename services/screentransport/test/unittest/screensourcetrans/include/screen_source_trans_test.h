@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_SCREEN_SOURCE_TRANS_TEST_H
+#define OHOS_SCREEN_SOURCE_TRANS_TEST_H
+
 #include <chrono>
 #include <gtest/gtest.h>
 
@@ -35,5 +38,6 @@ public:
 
     std::shared_ptr<ScreenSourceTrans> trans = nullptr;
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
+#endif

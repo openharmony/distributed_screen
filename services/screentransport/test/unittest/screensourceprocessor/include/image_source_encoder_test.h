@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_IMAGE_SOURCE_ENCODER_TEST_H
+#define OHOS_IMAGE_SOURCE_ENCODER_TEST_H
+
 #include <gtest/gtest.h>
 #include <securec.h>
 
@@ -34,5 +37,6 @@ public:
 
     std::shared_ptr<ImageSourceEncoder> encoder = nullptr;
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
+#endif

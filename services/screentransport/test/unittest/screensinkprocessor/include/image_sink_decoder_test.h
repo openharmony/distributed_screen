@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef IMAGE_SINK_DECODER_TEST_H
-#define IMAGE_SINK_DECODER_TEST_H
+#ifndef OHOS_IMAGE_SINK_DECODER_TEST_H
+#define OHOS_IMAGE_SINK_DECODER_TEST_H
 
 #include <gtest/gtest.h>
 
@@ -37,6 +37,6 @@ public:
     std::shared_ptr<ImageSinkDecoder> imageDecoder_ = nullptr;
     std::shared_ptr<IImageSinkProcessorListener> imageListener_ = nullptr;
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
 #endif

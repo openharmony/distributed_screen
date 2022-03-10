@@ -93,5 +93,5 @@ void DScreenMapRelationTest::TearDown() {}
     ScreenRect actual = dscreenMapRelation->GetScreenRect();
     EXPECT_EQ(startX, actual.startX);
 }
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS

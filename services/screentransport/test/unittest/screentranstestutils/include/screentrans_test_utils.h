@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SCREENTRANS_TEST_UTILS_H
-#define SCREENTRANS_TEST_UTILS_H
+#ifndef OHOS_SCREEN_TRANS_TEST_UTILS_H
+#define OHOS_SCREEN_TRANS_TEST_UTILS_H
 
 #include "dscreen_errcode.h"
 #include "dscreen_log.h"
@@ -76,6 +76,6 @@ public:
     void OnSessionClosed() override {}
     void OnDataReceived(const std::shared_ptr<DataBuffer> &data) override {}
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
 #endif

@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_DSCREEN_MAPRELATION_TEST_H
+#define OHOS_DSCREEN_MAPRELATION_TEST_H
+
 #include <gtest/gtest.h>
 
 #include "dscreen_constants.h"
@@ -31,5 +34,6 @@ public:
     void TearDown();
     std::shared_ptr<DScreenMapRelation> dscreenMapRelation = nullptr;
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
+#endif
