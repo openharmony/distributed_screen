@@ -13,16 +13,16 @@
  * limitations under the License.
  */
 
-#ifndef IMAGE_SINK_DECODER_TEST_H
-#define IMAGE_SINK_DECODER_TEST_H
+#ifndef OHOS_IMAGE_SINK_DECODER_TEST_H
+#define OHOS_IMAGE_SINK_DECODER_TEST_H
 
 #include <gtest/gtest.h>
 
 #define private public
 #include "image_sink_processor.h"
 #undef private
-#include "screentrans_test_utils.h"
 #include "iscreen_channel_listener.h"
+#include "screentrans_test_utils.h"
 
 namespace OHOS {
 namespace DistributedHardware {
@@ -37,6 +37,6 @@ public:
     std::shared_ptr<ImageSinkProcessor> processor_;
     std::shared_ptr<IImageSinkProcessorListener> imageListener_;
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
 #endif

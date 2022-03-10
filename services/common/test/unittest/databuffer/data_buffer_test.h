@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_DATA_BUFFER_TEST_H
+#define OHOS_DATA_BUFFER_TEST_H
+
 #include <gtest/gtest.h>
 #include <new>
 
@@ -29,5 +32,6 @@ public:
     size_t capacity = 1;
     std::shared_ptr<DataBuffer> dataBuffer_ = nullptr;
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
+#endif

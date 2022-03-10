@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_SOFTBUS_ADAPTER_TEST_H
+#define OHOS_SOFTBUS_ADAPTER_TEST_H
+
 #include <gtest/gtest.h>
 #include <securec.h>
 
@@ -36,5 +39,6 @@ public:
 
     SoftbusAdapter softbusAdapter;
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
+#endif

@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_VIDEO_PARAM_TEST_H
+#define OHOS_VIDEO_PARAM_TEST_H
+
 #include <gtest/gtest.h>
 
 #include "dscreen_constants.h"
@@ -31,5 +34,6 @@ public:
     void TearDown();
     std::shared_ptr<VideoParam> videoParam_ = nullptr;
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
+#endif

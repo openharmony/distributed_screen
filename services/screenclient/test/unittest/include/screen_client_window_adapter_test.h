@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_SCREEN_CLIENT_WINDOW_ADAPTER_TEST_H
+#define OHOS_SCREEN_CLIENT_WINDOW_ADAPTER_TEST_H
+
 #include <gtest/gtest.h>
 
 #include "rs_surface_node.h"
@@ -33,5 +36,6 @@ public:
     void SetUp();
     void TearDown();
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
+#endif

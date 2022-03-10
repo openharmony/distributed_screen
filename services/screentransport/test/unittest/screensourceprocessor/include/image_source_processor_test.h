@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_IMAGE_SOURCE_PROCESSOR_TEST_H
+#define OHOS_IMAGE_SOURCE_PROCESSOR_TEST_H
+
 #include <gtest/gtest.h>
 
 #include "dscreen_errcode.h"
@@ -32,5 +35,6 @@ public:
 
     ImageSourceProcessor processor;
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
+#endif

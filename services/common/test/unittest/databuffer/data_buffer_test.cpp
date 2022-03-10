@@ -55,5 +55,5 @@ HWTEST_F(DataBufferTest, Data_001, TestSize.Level1)
     uint8_t *actual = dataBuffer_->Data();
     EXPECT_NE(nullptr, actual);
 }
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS

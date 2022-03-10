@@ -131,5 +131,5 @@ HWTEST_F(VideoParamTest, GetVideoFormat_001, TestSize.Level1)
     uint8_t actual = videoParam_->GetVideoFormat();
     EXPECT_EQ(videoFormat, actual);
 }
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS

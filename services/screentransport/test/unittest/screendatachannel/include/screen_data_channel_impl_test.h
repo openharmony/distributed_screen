@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+#ifndef OHOS_SCREEN_DATA_CHANNEL_IMPL_TEST_H
+#define OHOS_SCREEN_DATA_CHANNEL_IMPL_TEST_H
+
 #include <securec.h>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
@@ -35,5 +38,6 @@ public:
     void TearDown();
     std::shared_ptr<ScreenDataChannelImpl> dataChannelImpl_ = nullptr;
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
+#endif

@@ -13,16 +13,15 @@
  * limitations under the License.
  */
 
-#ifndef SCREEN_SINK_TRANS_TEST_H
-#define SCREEN_SINK_TRANS_TEST_H
+#ifndef OHOS_SCREEN_SINK_TRANS_TEST_H
+#define OHOS_SCREEN_SINK_TRANS_TEST_H
 
 #include <gtest/gtest.h>
 
+#include "iscreen_sink_trans_callback.h"
 #define private public
 #include "screen_sink_trans.h"
 #undef private
-
-#include "iscreen_sink_trans_callback.h"
 #include "screentrans_test_utils.h"
 
 namespace OHOS {
@@ -38,6 +37,6 @@ public:
     VideoParam param_;
     std::string peerDevId_;
 };
-}
-}
+} // namespace DistributedHardware
+} // namespace OHOS
 #endif
