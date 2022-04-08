@@ -146,6 +146,12 @@ void DScreenHandler::RegisterPluginListener(std::shared_ptr<PluginListener> list
     listener_ = listener;
 }
 
+void DScreenHandler::UnRegisterPluginListener()
+{
+    DHLOGI("DScreenHandler unRegister plugin listener");
+    listener_ = nullptr;
+}
+
 std::string DScreenHandler::QueryCodecInfo()
 {
     DHLOGD("DScreenHandler QueryCodecInfo");
