@@ -39,6 +39,17 @@ uint64_t ScreenMgrAdapter::CreateVirtualScreen(const std::string &devId, const s
     DHLOGI("CreateVirtualScreen, width: %u, height: %u", videoParam->GetScreenWidth(),
         videoParam->GetScreenHeight());
     std::string screenName = DSCREEN_PREFIX + SEPERATOR + devId + SEPERATOR + dhId;
+    auto iter = screenIdMap_.find(screenName);
+    if (iter != screenIdMap_.end()) {
+        DHLOGI("remove an exist virtual screen.");
+        Rosen::DMError err = Rosen::ScreenManager::GetInstance().DestroyVirtualScreen(iter->second);
+        if (err != Rosen::DMError::DM_OK) {
+            DHLOGE("remove virtual screen failed, screenId:%ulld", iter->second);
+            return SCREEN_ID_INVALID;
+        }
+        screenIdMap_.erase(screenName);
+    }
+
     Rosen::VirtualScreenOption option = {
         screenName,
         videoParam->GetScreenWidth(),
@@ -50,6 +61,7 @@ uint64_t ScreenMgrAdapter::CreateVirtualScreen(const std::string &devId, const s
     };
 
     uint64_t screenId = Rosen::ScreenManager::GetInstance().CreateVirtualScreen(option);
+    screenIdMap_.emplace(screenName, screenId);
     return screenId;
 }
 
