@@ -78,7 +78,7 @@ private:
     bool isDecoderReady_ = false;
     std::queue<std::shared_ptr<DataBuffer>> videoDataQueue_;
     std::queue<int32_t> bufferIndexQueue_;
-    std::shared_ptr<Media::VideoDecoder> videoDecoder_;
+    std::shared_ptr<Media::AVCodecVideoDecoder> videoDecoder_;
     std::shared_ptr<Media::AVCodecCallback> decodeVideoCallback_;
     std::weak_ptr<IImageSinkProcessorListener> imageProcessorListener_;
 };
