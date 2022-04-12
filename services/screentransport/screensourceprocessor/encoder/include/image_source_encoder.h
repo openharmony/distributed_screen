@@ -62,7 +62,7 @@ private:
     Media::AVCodecBufferInfo encoderBufferInfo_;
 
     sptr<Surface> videoSurface_;
-    std::shared_ptr<Media::VideoEncoder> videoEncoder_;
+    std::shared_ptr<Media::AVCodecVideoEncoder> videoEncoder_;
     std::shared_ptr<Media::AVSharedMemory> videoSharedMemory_;
     std::shared_ptr<Media::AVCodecCallback> encodeVideoCallback_;
     std::weak_ptr<IImageSourceProcessorListener> imageProcessorListener_;
