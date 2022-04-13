@@ -21,6 +21,7 @@
 #include "dscreen_constants.h"
 #include "dscreen_errcode.h"
 #include "dscreen_log.h"
+#include "dscreen_sink_load_callback.h"
 
 namespace OHOS {
 namespace DistributedHardware {
@@ -43,7 +44,7 @@ DScreenSinkHandler::~DScreenSinkHandler()
 int32_t DScreenSinkHandler::InitSink(const std::string &params)
 {
     DHLOGD("InitSink");
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
 
     if (!dScreenSinkProxy_) {
         sptr<ISystemAbilityManager> samgr =
@@ -52,21 +53,38 @@ int32_t DScreenSinkHandler::InitSink(const std::string &params)
             DHLOGE("Failed to get system ability mgr.");
             return ERR_DH_SCREEN_SA_GET_SAMGR_FAIL;
         }
-        sptr<IRemoteObject> remoteObject = samgr->GetSystemAbility(DISTRIBUTED_HARDWARE_SCREEN_SINK_SA_ID);
-        if (!remoteObject) {
-            DHLOGE("Failed to get dscreen sink service.");
-            return ERR_DH_SCREEN_SA_GET_SINKSERVICE_FAIL;
-        }
-
-        remoteObject->AddDeathRecipient(sinkSvrRecipient_);
-        dScreenSinkProxy_ = iface_cast<IDScreenSink>(remoteObject);
-        if ((!dScreenSinkProxy_) || (!dScreenSinkProxy_->AsObject())) {
-            DHLOGE("Failed to get dscreen sink proxy.");
+        sptr<DScreenSinkLoadCallback> loadCallback =
+            new DScreenSinkLoadCallback(params);
+        int32_t ret = samgr->LoadSystemAbility(
+            DISTRIBUTED_HARDWARE_SCREEN_SINK_SA_ID, loadCallback);
+        if (ret != ERR_OK) {
+            DHLOGE("Failed to Load systemAbility, systemAbilityId:%d, ret code:%d",
+                DISTRIBUTED_HARDWARE_SCREEN_SINK_SA_ID, ret);
             return ERR_DH_SCREEN_SA_GET_SINKPROXY_FAIL;
         }
     }
-    int32_t ret = dScreenSinkProxy_->InitSink(params);
-    return ret;
+
+    auto waitStatus = conVar_.wait_for(lock, std::chrono::milliseconds(SCREEN_LOADSA_TIMEOUT_MS),
+        [this]() { return dScreenSinkProxy_; });
+    if (!waitStatus) {
+        DHLOGE("screen load sa timeout");
+        return ERR_DH_SCREEN_SA_LOAD_TIMEOUT;
+    }
+
+    return DH_SUCCESS;
+}
+
+void DScreenSinkHandler::FinishStartSA(const std::string params,
+    const sptr<IRemoteObject> &remoteObject)
+{
+    DHLOGD("FinishStartSA");
+    remoteObject->AddDeathRecipient(sinkSvrRecipient_);
+    dScreenSinkProxy_ = iface_cast<IDScreenSink>(remoteObject);
+    if ((!dScreenSinkProxy_) || (!dScreenSinkProxy_->AsObject())) {
+        DHLOGE("Failed to get dscreen sink proxy.");
+        return;
+    }
+    dScreenSinkProxy_->InitSink(params);
 }
 
 int32_t DScreenSinkHandler::ReleaseSink()
@@ -79,6 +97,7 @@ int32_t DScreenSinkHandler::ReleaseSink()
     }
 
     int32_t ret = dScreenSinkProxy_->ReleaseSink();
+    dScreenSinkProxy_ = nullptr;
     return ret;
 }
 

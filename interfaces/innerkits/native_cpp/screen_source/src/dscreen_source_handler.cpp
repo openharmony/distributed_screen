@@ -21,6 +21,7 @@
 #include "dscreen_constants.h"
 #include "dscreen_errcode.h"
 #include "dscreen_log.h"
+#include "dscreen_source_load_callback.h"
 #include "dscreen_util.h"
 
 namespace OHOS {
@@ -48,7 +49,7 @@ DScreenSourceHandler::~DScreenSourceHandler()
 int32_t DScreenSourceHandler::InitSource(const std::string &params)
 {
     DHLOGD("InitSource");
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
 
     if (!dScreenSourceProxy_) {
         sptr<ISystemAbilityManager> samgr =
@@ -57,22 +58,38 @@ int32_t DScreenSourceHandler::InitSource(const std::string &params)
             DHLOGE("Failed to get system ability mgr.");
             return ERR_DH_SCREEN_SA_GET_SAMGR_FAIL;
         }
-        sptr<IRemoteObject> remoteObject = samgr->GetSystemAbility(DISTRIBUTED_HARDWARE_SCREEN_SOURCE_SA_ID);
-        if (!remoteObject) {
-            DHLOGE("Failed to get dscreen source service.");
-            return ERR_DH_SCREEN_SA_GET_SOURCESERVICE_FAIL;
-        }
-
-        remoteObject->AddDeathRecipient(sourceSvrRecipient_);
-        dScreenSourceProxy_ = iface_cast<IDScreenSource>(remoteObject);
-        if ((!dScreenSourceProxy_) || (!dScreenSourceProxy_->AsObject())) {
-            DHLOGE("Failed to get dscreen source proxy.");
+        sptr<DScreenSourceLoadCallback> loadCallback =
+            new DScreenSourceLoadCallback(params);
+        int32_t ret = samgr->LoadSystemAbility(
+            DISTRIBUTED_HARDWARE_SCREEN_SOURCE_SA_ID, loadCallback);
+        if (ret != ERR_OK) {
+            DHLOGE("Failed to Load systemAbility, systemAbilityId:%d, ret code:%d",
+                DISTRIBUTED_HARDWARE_SCREEN_SOURCE_SA_ID, ret);
             return ERR_DH_SCREEN_SA_GET_SOURCEPROXY_FAIL;
         }
     }
 
-    int32_t ret = dScreenSourceProxy_->InitSource(params, dScreenSourceCallback_);
-    return ret;
+    auto waitStatus = conVar_.wait_for(lock, std::chrono::milliseconds(SCREEN_LOADSA_TIMEOUT_MS),
+        [this]() { return dScreenSourceProxy_; });
+    if (!waitStatus) {
+        DHLOGE("screen load sa timeout.");
+        return ERR_DH_SCREEN_SA_LOAD_TIMEOUT;
+    }
+
+    return DH_SUCCESS;
+}
+
+void DScreenSourceHandler::FinishStartSA(const std::string params,
+    const sptr<IRemoteObject> &remoteObject)
+{
+    DHLOGD("FinishStartSA");
+    remoteObject->AddDeathRecipient(sourceSvrRecipient_);
+    dScreenSourceProxy_ = iface_cast<IDScreenSource>(remoteObject);
+    if ((!dScreenSourceProxy_) || (!dScreenSourceProxy_->AsObject())) {
+        DHLOGE("Failed to get dscreen source proxy.");
+        return;
+    }
+    dScreenSourceProxy_->InitSource(params, dScreenSourceCallback_);
 }
 
 int32_t DScreenSourceHandler::ReleaseSource()
@@ -84,6 +101,7 @@ int32_t DScreenSourceHandler::ReleaseSource()
         return ERR_DH_SCREEN_SA_SOURCEPROXY_NOT_INIT;
     }
     int32_t ret = dScreenSourceProxy_->ReleaseSource();
+    dScreenSourceProxy_ = nullptr;
     return ret;
 }
 
