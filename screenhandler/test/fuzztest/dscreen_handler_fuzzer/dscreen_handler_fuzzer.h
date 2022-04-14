@@ -19,5 +19,3 @@
 #define FUZZ_PROJECT_NAME "dscreen_handler_fuzzer"
 
 #endif
-
-

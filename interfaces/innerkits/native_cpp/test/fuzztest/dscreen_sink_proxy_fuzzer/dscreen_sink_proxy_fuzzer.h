@@ -19,4 +19,3 @@
 #define FUZZ_PROJECT_NAME "dscreen_sink_proxy_fuzzer"
 
 #endif
-
