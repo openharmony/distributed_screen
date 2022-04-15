@@ -16,6 +16,7 @@
 #ifndef OHOS_SCREEN_MGR_ADAPTER_H
 #define OHOS_SCREEN_MGR_ADAPTER_H
 
+#include <map>
 #include <surface.h>
 
 #include "single_instance.h"
@@ -44,6 +45,7 @@ private:
     ~ScreenMgrAdapter();
 
     bool listenerRegistered = false;
+    std::map<std::string, uint64_t> screenIdMap_;
 };
 } // namespace DistributedHardware
 } // namespace OHOS
