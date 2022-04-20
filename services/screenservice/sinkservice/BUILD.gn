@@ -81,10 +81,3 @@ ohos_shared_library("distributed_screen_sink") {
 
   part_name = "distributed_screen"
 }
-
-ohos_prebuilt_etc("dscreensink.cfg") {
-  relative_install_dir = "init"
-  source = "dscreensink.cfg"
-  part_name = "distributed_screen"
-  subsystem_name = "distributedhardware"
-}

@@ -11,7 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import("//build/ohos/sa_profile/sa_profile.gni")
+import("//build/ohos.gni")
 
 ohos_sa_profile("dscreen_sa_profile") {
   sources = [
