@@ -21,3 +21,10 @@ ohos_sa_profile("dscreen_sa_profile") {
 
   part_name = "distributed_screen"
 }
+
+ohos_prebuilt_etc("dscreen.cfg") {
+  relative_install_dir = "init"
+  source = "dscreen.cfg"
+  part_name = "distributed_screen"
+  subsystem_name = "distributedhardware"
+}
