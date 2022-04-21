@@ -26,7 +26,7 @@ void DScreenSourceLoadCallback::OnLoadSystemAbilitySuccess(
     int32_t systemAbilityId, const sptr<IRemoteObject> &remoteObject)
 {
     DHLOGI("load screen SA success, systemAbilityId:%d, remoteObject result:%s",
-        systemAbilityId, (remoteObject != nullptr) ? "true":"false");
+        systemAbilityId, (remoteObject != nullptr) ? "true" : "false");
     if (remoteObject == nullptr) {
         DHLOGE("remoteObject is nullptr");
         return;
