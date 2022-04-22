@@ -52,7 +52,7 @@ void ScreenSourceTransFuzzTest(const uint8_t* data, size_t size)
     screenSourceTrans->SetUp(*param, *param, peerDevId);
     screenSourceTrans->GetImageSurface();
     screenSourceTrans->Start();
-    screenSourceTrans->RegisterStateCallback(callBack); 
+    screenSourceTrans->RegisterStateCallback(callBack);
     screenSourceTrans->Stop();
     screenSourceTrans->Release();
 }
