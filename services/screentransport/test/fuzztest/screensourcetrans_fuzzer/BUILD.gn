@@ -16,7 +16,6 @@ import("//build/config/features.gni")
 import("//build/test.gni")
 import(
     "//foundation/distributedhardware/distributedscreen/distributedscreen.gni")
-
 ##############################fuzztest##########################################
 ohos_fuzztest("ScreenSourceTransFuzzTest") {
   module_out_path = "distributed_screen/screensourcetrans"
@@ -61,9 +60,7 @@ ohos_fuzztest("ScreenSourceTransFuzzTest") {
     "-fno-omit-frame-pointer",
   ]
 
-  sources = [
-    "screen_source_trans_fuzzer.cpp",
-  ]
+  sources = [ "screen_source_trans_fuzzer.cpp" ]
 
   deps = [
     "${services_path}/screentransport/screensourcetrans:distributed_screen_sourcetrans",
