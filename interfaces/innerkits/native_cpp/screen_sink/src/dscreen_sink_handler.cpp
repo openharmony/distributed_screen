@@ -61,7 +61,7 @@ int32_t DScreenSinkHandler::InitSink(const std::string &params)
 
     std::unique_lock<std::mutex> lock(proxyMutex_);
     auto waitStatus = proxyConVar_.wait_for(lock, std::chrono::milliseconds(SCREEN_LOADSA_TIMEOUT_MS),
-        [this]() { return dScreenSinkProxy_; });
+        [this]() { return dScreenSinkProxy_ != nullptr; });
     if (!waitStatus) {
         DHLOGE("screen load sa timeout");
         return ERR_DH_SCREEN_SA_LOAD_TIMEOUT;
