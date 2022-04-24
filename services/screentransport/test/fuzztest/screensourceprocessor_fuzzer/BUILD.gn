@@ -16,6 +16,7 @@ import("//build/config/features.gni")
 import("//build/test.gni")
 import(
     "//foundation/distributedhardware/distributedscreen/distributedscreen.gni")
+
 ##############################fuzztest##########################################
 ohos_fuzztest("ScreenSourceProcessorFuzzTest") {
   module_out_path = "distributed_screen/screensourceprocessor"
@@ -55,8 +56,8 @@ ohos_fuzztest("ScreenSourceProcessorFuzzTest") {
   sources = [ "screen_source_processor_fuzzer.cpp" ]
 
   deps = [
-    "${services_path}/screentransport/screensourcetrans:distributed_screen_sourcetrans",
     "${fwk_utils_path}:distributedhardwareutils",
+    "${services_path}/screentransport/screensourcetrans:distributed_screen_sourcetrans",
     "//foundation/graphic/standard/frameworks/surface:surface",
     "//utils/native/base:utils",
   ]
@@ -73,6 +74,7 @@ ohos_fuzztest("ScreenSourceProcessorFuzzTest") {
     "multimedia_media_standard:media_client",
   ]
 }
+
 ###############################################################################
 group("fuzztest") {
   testonly = true

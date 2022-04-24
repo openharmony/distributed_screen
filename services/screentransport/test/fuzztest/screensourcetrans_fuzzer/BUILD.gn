@@ -16,6 +16,7 @@ import("//build/config/features.gni")
 import("//build/test.gni")
 import(
     "//foundation/distributedhardware/distributedscreen/distributedscreen.gni")
+    
 ##############################fuzztest##########################################
 ohos_fuzztest("ScreenSourceTransFuzzTest") {
   module_out_path = "distributed_screen/screensourcetrans"
