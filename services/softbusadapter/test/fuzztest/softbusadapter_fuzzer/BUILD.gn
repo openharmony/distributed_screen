@@ -21,7 +21,8 @@ import(
 ohos_fuzztest("SoftbusAdapterFuzzTest") {
   module_out_path = "distributed_screen/softbusadapter"
 
-  fuzz_config_file = "${services_path}/softbusadapter/test/fuzztest/softbusadapter_fuzzer"
+  fuzz_config_file = 
+      "${services_path}/softbusadapter/test/fuzztest/softbusadapter_fuzzer"
 
   include_dirs = [
     "//third_party/json/include",
@@ -63,9 +64,9 @@ ohos_fuzztest("SoftbusAdapterFuzzTest") {
   ]
 
   defines = [
-  "HI_LOG_ENABLE",
-  "DH_LOG_TAG=\"SoftbusAdapterFuzzTest\"",
-  "LOG_DOMAIN=0xD004100",
+    "HI_LOG_ENABLE",
+    "DH_LOG_TAG=\"SoftbusAdapterFuzzTest\"",
+    "LOG_DOMAIN=0xD004100",
   ]
 
   external_deps = [
@@ -78,6 +79,6 @@ ohos_fuzztest("SoftbusAdapterFuzzTest") {
 ###############################################################################
 group("fuzztest") {
   testonly = true
-deps = [ ":SoftbusAdapterFuzzTest" ]
+  deps = [ ":SoftbusAdapterFuzzTest" ]
 }
 ###############################################################################
