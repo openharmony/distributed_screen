@@ -18,5 +18,6 @@ group("fuzztest") {
     "dscreensinkhandler_fuzzer:fuzztest",
     "dscreensinkproxy_fuzzer:fuzztest",
     "dscreensourcehandler_fuzzer:fuzztest",
+    "dscreensourceproxy_fuzzer:fuzztest",
   ]
 }
