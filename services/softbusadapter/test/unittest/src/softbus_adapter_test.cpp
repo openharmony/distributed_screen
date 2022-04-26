@@ -36,11 +36,13 @@ void SoftbusAdapterTest::TearDown(void) {}
 HWTEST_F(SoftbusAdapterTest, RegisterSoftbusListener_001, TestSize.Level1)
 {
     std::shared_ptr<ISoftbusListener> listener = nullptr;
-    std::string sessionName;
-    std::string peerDevId;
+    std::string sessionName = DATA_SESSION_NAME;
+    std::string peerDevId = "testDevId";
 
     int32_t actual = softbusAdapter.RegisterSoftbusListener(listener, sessionName, peerDevId);
+    EXPECT_EQ(DH_SUCCESS, actual);
 
+    actual = softbusAdapter.UnRegisterSoftbusListener(sessionName, peerDevId);
     EXPECT_EQ(DH_SUCCESS, actual);
 }
 
@@ -53,12 +55,13 @@ HWTEST_F(SoftbusAdapterTest, RegisterSoftbusListener_001, TestSize.Level1)
 HWTEST_F(SoftbusAdapterTest, RegisterSoftbusListener_002, TestSize.Level1)
 {
     std::shared_ptr<ISoftbusListener> listener = nullptr;
-    std::string sessionName = "hello";
-    std::string peerDevId = "world";
+    std::string sessionName = DATA_SESSION_NAME;
+    std::string peerDevId = "testDevId";
 
-    softbusAdapter.mapListeners_["hello_world"] = listener;
     int32_t actual = softbusAdapter.RegisterSoftbusListener(listener, sessionName, peerDevId);
+    EXPECT_EQ(DH_SUCCESS, actual);
 
+    actual = softbusAdapter.RegisterSoftbusListener(listener, sessionName, peerDevId);
     EXPECT_EQ(ERR_DH_SCREEN_ADAPTER_REGISTER_SOFTBUS_LISTENER_FAIL, actual);
 }
 
@@ -70,8 +73,8 @@ HWTEST_F(SoftbusAdapterTest, RegisterSoftbusListener_002, TestSize.Level1)
  */
 HWTEST_F(SoftbusAdapterTest, UnRegisterSoftbusListener_001, TestSize.Level1)
 {
-    std::string sessionName = "hello";
-    std::string peerDevId = "world";
+    std::string sessionName = DATA_SESSION_NAME;
+    std::string peerDevId = "testDevId";
 
     int32_t actual = softbusAdapter.UnRegisterSoftbusListener(sessionName, peerDevId);
 
@@ -86,14 +89,18 @@ HWTEST_F(SoftbusAdapterTest, UnRegisterSoftbusListener_001, TestSize.Level1)
  */
 HWTEST_F(SoftbusAdapterTest, CreateSoftbusSessionServer_001, TestSize.Level1)
 {
-    std::string pkgname = "hello";
-    std::string sessionName = "world";
-    std::string peerDevId = "world";
+    std::string pkgname = PKG_NAME;
+    std::string sessionName = DATA_SESSION_NAME;
+    std::string peerDevId = "testDevId";
 
-    softbusAdapter.mapSessionSet_[sessionName].insert(peerDevId);
     int32_t actual = softbusAdapter.CreateSoftbusSessionServer(pkgname, sessionName, peerDevId);
-
     EXPECT_EQ(DH_SUCCESS, actual);
+
+    actual = softbusAdapter.RemoveSoftbusSessionServer(pkgname, sessionName, peerDevId);
+    EXPECT_EQ(DH_SUCCESS, actual);
+
+    actual = softbusAdapter.RemoveSoftbusSessionServer(pkgname, sessionName, peerDevId);
+    EXPECT_EQ(ERR_DH_SCREEN_TRANS_ILLEGAL_OPERATION, actual);
 }
 
 /**
@@ -104,31 +111,13 @@ HWTEST_F(SoftbusAdapterTest, CreateSoftbusSessionServer_001, TestSize.Level1)
  */
 HWTEST_F(SoftbusAdapterTest, RemoveSoftbusSessionServer_001, TestSize.Level1)
 {
-    std::string pkgname = "hello";
-    std::string sessionName = "world";
-    std::string peerDevId = "world";
+    std::string pkgname = PKG_NAME;
+    std::string sessionName = DATA_SESSION_NAME;
+    std::string peerDevId = "testDevId";
 
     int32_t actual = softbusAdapter.RemoveSoftbusSessionServer(pkgname, sessionName, peerDevId);
 
     EXPECT_EQ(ERR_DH_SCREEN_TRANS_ILLEGAL_OPERATION, actual);
-}
-
-/**
- * @tc.name: RemoveSoftbusSessionServer_002
- * @tc.desc: Verify the RemoveSoftbusSessionServer function.
- * @tc.type: FUNC
- * @tc.require: Issue Number
- */
-HWTEST_F(SoftbusAdapterTest, RemoveSoftbusSessionServer_002, TestSize.Level1)
-{
-    std::string pkgname = "hello";
-    std::string sessionName = "world";
-    std::string peerDevId = "world";
-
-    softbusAdapter.mapSessionSet_[sessionName].insert(peerDevId);
-    int32_t actual = softbusAdapter.RemoveSoftbusSessionServer(pkgname, sessionName, peerDevId);
-
-    EXPECT_EQ(DH_SUCCESS, actual);
 }
 
 /**
@@ -140,8 +129,8 @@ HWTEST_F(SoftbusAdapterTest, RemoveSoftbusSessionServer_002, TestSize.Level1)
 HWTEST_F(SoftbusAdapterTest, OpenSoftbusSession_001, TestSize.Level1)
 {
     std::string mySessionName = DATA_SESSION_NAME;
-    std::string peerSessionName = "world";
-    std::string peerDevId = "world";
+    std::string peerSessionName = DATA_SESSION_NAME;
+    std::string peerDevId = "testDevId";
 
     int32_t actual = softbusAdapter.OpenSoftbusSession(mySessionName, peerSessionName, peerDevId);
 
@@ -156,9 +145,9 @@ HWTEST_F(SoftbusAdapterTest, OpenSoftbusSession_001, TestSize.Level1)
  */
 HWTEST_F(SoftbusAdapterTest, OpenSoftbusSession_002, TestSize.Level1)
 {
-    std::string mySessionName = "hello";
-    std::string peerSessionName = "world";
-    std::string peerDevId = "world";
+    std::string mySessionName = DATA_SESSION_NAME;
+    std::string peerSessionName = DATA_SESSION_NAME;
+    std::string peerDevId = "testDevId";
 
     int32_t actual = softbusAdapter.OpenSoftbusSession(mySessionName, peerSessionName, peerDevId);
 
