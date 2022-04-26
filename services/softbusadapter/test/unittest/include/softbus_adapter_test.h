@@ -22,6 +22,7 @@
 #include "softbus_bus_center.h"
 #include "softbus_common.h"
 
+#include "dscreen_constants.h"
 #include "dscreen_errcode.h"
 #include "dscreen_util.h"
 #define private public
