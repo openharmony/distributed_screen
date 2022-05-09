@@ -12,7 +12,8 @@
 # limitations under the License.
 
 import("//build/test.gni")
-import("//foundation/distributedhardware/distributedscreen/distributedscreen.gni")
+import(
+    "//foundation/distributedhardware/distributedscreen/distributedscreen.gni")
 
 module_out_path = "distributed_screen/source_trans_test"
 
@@ -45,27 +46,27 @@ ohos_unittest("ScreenSourceTest") {
   module_out_path = module_out_path
 
   sources = [
-      "${interfaces_path}/innerkits/native_cpp/test/unittest/screensourcetest/src/dscreen_source_handler_test.cpp",
-      "${interfaces_path}/innerkits/native_cpp/test/unittest/screensourcetest/src/callback/dscreen_source_callback_test.cpp",
+    "${interfaces_path}/innerkits/native_cpp/test/unittest/screensourcetest/src/callback/dscreen_source_callback_test.cpp",
+    "${interfaces_path}/innerkits/native_cpp/test/unittest/screensourcetest/src/dscreen_source_handler_test.cpp",
   ]
 
   configs = [ ":module_private_config" ]
 
   deps = [
+    "${fwk_utils_path}:distributedhardwareutils",
+    "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
+    "//foundation/distributedhardware/distributedscreen/interfaces/innerkits/native_cpp/screen_source:distributed_screen_source_sdk",
+    "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
     "//third_party/googletest:gmock",
     "//third_party/googletest:gtest_main",
-    "${fwk_utils_path}:distributedhardwareutils",
     "//utils/native/base:utils",
-    "//foundation/distributedhardware/distributedscreen/interfaces/innerkits/native_cpp/screen_source:distributed_screen_source_sdk",
-    "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
-    "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
   ]
 
   external_deps = [
     "dsoftbus_standard:softbus_client",
     "hiviewdfx_hilog_native:libhilog",
-    "multimedia_media_standard:media_client",
     "ipc:ipc_core",
+    "multimedia_media_standard:media_client",
     "safwk:system_ability_fwk",
     "samgr_standard:samgr_proxy",
   ]
