@@ -21,6 +21,7 @@ ohos_shared_library("distributed_screen_sourcetrans") {
     "//third_party/json/include",
     "//foundation/graphic/graphic/interfaces/innerkits/surface",
     "${fwk_common_path}/utils/include",
+    "//base/hiviewdfx/hitrace/interfaces/native/innerkits/include/hitrace_meter",
   ]
 
   include_dirs += [
@@ -63,6 +64,7 @@ ohos_shared_library("distributed_screen_sourcetrans") {
     "hisysevent_native:libhisysevent",
     "hiviewdfx_hilog_native:libhilog",
     "multimedia_media_standard:media_client",
+    "hitrace_native:hitrace_meter",
   ]
 
   subsystem_name = "distributedhardware"

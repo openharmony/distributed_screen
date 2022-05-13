@@ -16,6 +16,7 @@
 #include "image_source_processor.h"
 
 #include "dscreen_errcode.h"
+#include "dscreen_hitrace.h"
 #include "dscreen_log.h"
 
 namespace OHOS {
@@ -49,7 +50,9 @@ int32_t ImageSourceProcessor::ReleaseImageProcessor()
         return ERR_DH_SCREEN_TRANS_NULL_VALUE;
     }
 
+    StartTrace(DSCREEN_RELESSE_ENCODER_LABEL, DSCREEN_RELESSE_ENCODER_START);
     int32_t ret = imageEncoder_->ReleaseEncoder();
+    FinishTrace(DSCREEN_RELESSE_ENCODER_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGE("%s: Release screen encoder failed ret: %d.", LOG_TAG, ret);
         return ret;
@@ -66,7 +69,9 @@ int32_t ImageSourceProcessor::StartImageProcessor()
         return ERR_DH_SCREEN_TRANS_NULL_VALUE;
     }
 
+    StartTrace(DSCREEN_START_ENCODER_LABEL, DSCREEN_START_ENCODER_START);
     int32_t ret = imageEncoder_->StartEncoder();
+    FinishTrace(DSCREEN_START_ENCODER_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGE("%s: Start screen encoder failed ret: %d.", LOG_TAG, ret);
         return ret;
@@ -83,7 +88,9 @@ int32_t ImageSourceProcessor::StopImageProcessor()
         return ERR_DH_SCREEN_TRANS_NULL_VALUE;
     }
 
+    StartTrace(DSCREEN_STOP_ENCODER_LABEL, DSCREEN_STOP_ENCODER_START);
     int32_t ret = imageEncoder_->StopEncoder();
+    FinishTrace(DSCREEN_STOP_ENCODER_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGE("%s: Stop screen encoder failed ret: %d.", LOG_TAG, ret);
         return ret;

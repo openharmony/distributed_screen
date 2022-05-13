@@ -20,6 +20,7 @@ ohos_shared_library("distributed_screen_sink_sdk") {
   include_dirs = [
     "//utils/system/safwk/native/include",
     "${fwk_common_path}/utils/include",
+    "//base/hiviewdfx/hitrace/interfaces/native/innerkits/include/hitrace_meter",
   ]
 
   include_dirs += [
@@ -51,6 +52,7 @@ ohos_shared_library("distributed_screen_sink_sdk") {
     "ipc:ipc_core",
     "safwk:system_ability_fwk",
     "samgr_standard:samgr_proxy",
+    "hitrace_native:hitrace_meter",
   ]
 
   subsystem_name = "distributedhardware"

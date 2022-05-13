@@ -18,6 +18,7 @@
 #include <chrono>
 
 #include "dscreen_errcode.h"
+#include "dscreen_hitrace.h"
 #include "dscreen_log.h"
 #include "image_source_processor.h"
 #include "screen_data_channel_impl.h"
@@ -58,7 +59,9 @@ int32_t ScreenSourceTrans::Release()
     }
     imageProcessor_ = nullptr;
 
+    StartTrace(DSCREEN_SOURCE_RELEASE_SESSION_LABEL, DSCREEN_SOURCE_RELEASE_SESSION_START);
     ret = screenChannel_->ReleaseSession();
+    FinishTrace(DSCREEN_SOURCE_RELEASE_SESSION_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGD("%s: Release channel session failed ret: %d.", LOG_TAG, ret);
     }
@@ -81,7 +84,9 @@ int32_t ScreenSourceTrans::Start()
         return ERR_DH_SCREEN_TRANS_NULL_VALUE;
     }
 
+    StartTrace(DSCREEN_SOURCE_OPEN_SESSION_LABEL, DSCREEN_SOURCE_OPEN_SESSION_START);
     int32_t ret = screenChannel_->OpenSession();
+    FinishTrace(DSCREEN_SOURCE_OPEN_SESSION_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGE("%s: Open channel session failed ret: %d.", LOG_TAG, ret);
         return ret;
@@ -115,7 +120,9 @@ int32_t ScreenSourceTrans::Stop()
         stopStatus = false;
     }
 
+    StartTrace(DSCREEN_SOURCE_CLOSE_SESSION_LABEL, DSCREEN_SOURCE_CLOSE_SESSION_START);
     ret = screenChannel_->CloseSession();
+    FinishTrace(DSCREEN_SOURCE_CLOSE_SESSION_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGD("%s: Close Session failed ret: %d.", LOG_TAG, ret);
         stopStatus = false;
