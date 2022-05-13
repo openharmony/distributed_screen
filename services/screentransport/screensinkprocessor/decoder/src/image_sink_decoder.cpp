@@ -81,7 +81,7 @@ int32_t ImageSinkDecoder::StartDecoder()
     if (ret != Media::MSERR_OK) {
         DHLOGE("%s: Start decoder failed.", LOG_TAG);
         int32_t res = OHOS::HiviewDFX::HiSysEvent::Write(
-            OHOS::HiviewDFX::HiSysEvent::Domain::DISTSCREEN,
+            OHOS::HiviewDFX::HiSysEvent::Domain::DISTRIBUTED_SCREEN,
             "VIDEO_DECODER_ERROR",
             OHOS::HiviewDFX::HiSysEvent::EventType::FAULT,
             "PID", getpid(),
@@ -115,7 +115,7 @@ int32_t ImageSinkDecoder::StopDecoder()
     if (ret != Media::MSERR_OK) {
         DHLOGE("%s: Stop decoder failed.", LOG_TAG);
         int32_t res = OHOS::HiviewDFX::HiSysEvent::Write(
-            OHOS::HiviewDFX::HiSysEvent::Domain::DISTSCREEN,
+            OHOS::HiviewDFX::HiSysEvent::Domain::DISTRIBUTED_SCREEN,
             "VIDEO_DECODER_ERROR",
             OHOS::HiviewDFX::HiSysEvent::EventType::FAULT,
             "PID", getpid(),
