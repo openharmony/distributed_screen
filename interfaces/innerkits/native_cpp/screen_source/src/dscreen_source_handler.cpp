@@ -59,9 +59,8 @@ int32_t DScreenSourceHandler::InitSource(const std::string &params)
             return ERR_DH_SCREEN_SA_GET_SAMGR_FAIL;
         }
         sptr<DScreenSourceLoadCallback> loadCallback = new DScreenSourceLoadCallback(params);
-        StartTrace(DSCREEN_SOURCE_LOAD_SYSTEM_ABILITY_LABEL, DSCREEN_SOURCE_LOAD_SYSTEM_ABILITY_START);
+        StartTrace(DSCREEN_HITRACE_LABEL, DSCREEN_SOURCE_LOAD_SYSTEM_ABILITY_START);
         int32_t ret = samgr->LoadSystemAbility(DISTRIBUTED_HARDWARE_SCREEN_SOURCE_SA_ID, loadCallback);
-        FinishTrace(DSCREEN_SOURCE_LOAD_SYSTEM_ABILITY_LABEL);
         if (ret != ERR_OK) {
             DHLOGE("Failed to Load systemAbility, systemAbilityId:%d, ret code:%d",
                 DISTRIBUTED_HARDWARE_SCREEN_SOURCE_SA_ID, ret);
@@ -96,6 +95,7 @@ int32_t DScreenSourceHandler::InitSource(const std::string &params)
         return ERR_DH_SCREEN_SA_LOAD_TIMEOUT;
     }
 
+    FinishTrace(DSCREEN_HITRACE_LABEL);
     return DH_SUCCESS;
 }
 
