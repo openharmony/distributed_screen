@@ -48,11 +48,11 @@ ohos_shared_library("distributed_screen_sink_sdk") {
 
   external_deps = [
     "hisysevent_native:libhisysevent",
+    "hitrace_native:hitrace_meter",
     "hiviewdfx_hilog_native:libhilog",
     "ipc:ipc_core",
     "safwk:system_ability_fwk",
     "samgr_standard:samgr_proxy",
-    "hitrace_native:hitrace_meter",
   ]
 
   subsystem_name = "distributedhardware"
