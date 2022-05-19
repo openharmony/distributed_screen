@@ -16,6 +16,7 @@
 #include "image_sink_processor.h"
 
 #include "dscreen_errcode.h"
+#include "dscreen_hitrace.h"
 #include "dscreen_log.h"
 
 namespace OHOS {
@@ -51,7 +52,9 @@ int32_t ImageSinkProcessor::ReleaseImageProcessor()
         return ERR_DH_SCREEN_TRANS_NULL_VALUE;
     }
 
+    StartTrace(DSCREEN_HITRACE_LABEL, DSCREEN_RELEASE_DECODER_START);
     int32_t ret = imageDecoder_->ReleaseDecoder();
+    FinishTrace(DSCREEN_HITRACE_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGE("%s: ReleaseDecoder failed.", LOG_TAG);
         return ret;
@@ -68,7 +71,9 @@ int32_t ImageSinkProcessor::StartImageProcessor()
         return ERR_DH_SCREEN_TRANS_NULL_VALUE;
     }
 
+    StartTrace(DSCREEN_HITRACE_LABEL, DSCREEN_START_DECODER_START);
     int32_t ret = imageDecoder_->StartDecoder();
+    FinishTrace(DSCREEN_HITRACE_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGE("%s: StartDecoder failed ret:%d.", LOG_TAG, ret);
         return ret;
@@ -85,7 +90,9 @@ int32_t ImageSinkProcessor::StopImageProcessor()
         return ERR_DH_SCREEN_TRANS_NULL_VALUE;
     }
 
+    StartTrace(DSCREEN_HITRACE_LABEL, DSCREEN_STOP_DECODER_START);
     int32_t ret = imageDecoder_->StopDecoder();
+    FinishTrace(DSCREEN_HITRACE_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGE("%s: StopDecoder failed ret:%d.", LOG_TAG, ret);
         return ret;

@@ -16,6 +16,7 @@
 #include "screen_sink_trans.h"
 
 #include "dscreen_errcode.h"
+#include "dscreen_hitrace.h"
 #include "dscreen_log.h"
 #include "image_sink_processor.h"
 #include "screen_data_channel_impl.h"
@@ -56,7 +57,9 @@ int32_t ScreenSinkTrans::Release()
     }
     imageProcessor_ = nullptr;
 
+    StartTrace(DSCREEN_HITRACE_LABEL, DSCREEN_SINK_RELEASE_SESSION_START);
     ret = screenChannel_->ReleaseSession();
+    FinishTrace(DSCREEN_HITRACE_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGD("%s: Release channel session failed ret: %d.", LOG_TAG, ret);
     }
@@ -99,7 +102,9 @@ int32_t ScreenSinkTrans::Stop()
         stopStatus = false;
     }
 
+    StartTrace(DSCREEN_HITRACE_LABEL, DSCREEN_SINK_CLOSE_SESSION_START);
     ret = screenChannel_->CloseSession();
+    FinishTrace(DSCREEN_HITRACE_LABEL);
     if (ret != DH_SUCCESS && ret != ERR_DH_SCREEN_TRANS_SESSION_NOT_OPEN) {
         DHLOGD("%s: Close Session failed ret: %d.", LOG_TAG, ret);
         stopStatus = false;

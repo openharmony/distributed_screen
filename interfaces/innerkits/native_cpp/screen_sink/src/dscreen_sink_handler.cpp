@@ -21,6 +21,7 @@
 
 #include "dscreen_constants.h"
 #include "dscreen_errcode.h"
+#include "dscreen_hitrace.h"
 #include "dscreen_log.h"
 #include "dscreen_sink_load_callback.h"
 
@@ -53,6 +54,7 @@ int32_t DScreenSinkHandler::InitSink(const std::string &params)
             return ERR_DH_SCREEN_SA_GET_SAMGR_FAIL;
         }
         sptr<DScreenSinkLoadCallback> loadCallback = new DScreenSinkLoadCallback(params);
+        StartTrace(DSCREEN_HITRACE_LABEL, DSCREEN_SINK_LOAD_SYSTEM_ABILITY_START);
         int32_t ret = samgr->LoadSystemAbility(DISTRIBUTED_HARDWARE_SCREEN_SINK_SA_ID, loadCallback);
         if (ret != ERR_OK) {
             DHLOGE("Failed to Load systemAbility, systemAbilityId:%d, ret code:%d",
@@ -88,6 +90,7 @@ int32_t DScreenSinkHandler::InitSink(const std::string &params)
         return ERR_DH_SCREEN_SA_LOAD_TIMEOUT;
     }
 
+    FinishTrace(DSCREEN_HITRACE_LABEL);
     return DH_SUCCESS;
 }
 
