@@ -144,7 +144,7 @@ static void StopMirror()
 
 static void StartExpand()
 {
-   vector<sptr<Screen>> remoteScreens = QueryRemoteScreenInfo();
+    vector<sptr<Screen>> remoteScreens = QueryRemoteScreenInfo();
     if (remoteScreens.size() == 0) {
         cout << "Error: no remote screens enabled" << endl;
         return;
