@@ -83,13 +83,6 @@ int32_t DScreenManager::UnInit()
     }
 
     dScreenCallback_ = nullptr;
-    if (dScreenSourceCallbackProxy_ != nullptr) {
-        dScreenSourceCallbackProxy_ = nullptr;
-    }
-
-    if (dScreenGroupListener_ != nullptr) {
-        dScreenGroupListener_ = nullptr;
-    }
 
     {
         std::lock_guard<std::mutex> lock(dScreenMapMtx_);

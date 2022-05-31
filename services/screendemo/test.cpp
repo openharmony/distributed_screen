@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+#include <iostream>
+
 #include "display.h"
 #include "display_manager.h"
 #include "dscreen_source_handler.h"
@@ -27,7 +29,6 @@
 #include "window.h"
 #include "window_option.h"
 
-#include "common.h"
 #include "decoder_demo.h"
 #include "softbus_adapter_mem.h"
 #include "softbus_bus_center.h"
@@ -220,8 +221,7 @@ static void PrintNodeProperty(NodeBasicInfo *nodeInfo)
 
     printf("DeviceName = %s\n", nodeInfo->deviceName);
     printf("NetworkId = %s\n", nodeInfo->networkId);
-    NodeDeviceInfoKey key;
-    key = NODE_KEY_UDID;
+    NodeDeviceInfoKey key = NODE_KEY_UDID;
     unsigned char udid[UDID_BUF_LEN] = {0};
     if (GetNodeKeyInfo(g_pkgName, nodeInfo->networkId, key, udid, UDID_BUF_LEN) != 0) {
         printf("GetNodeKeyInfo Fail!\n");
