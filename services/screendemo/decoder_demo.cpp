@@ -140,7 +140,6 @@ int32_t VDecDemo::Stop()
 
     if (inputLoop_ != nullptr && inputLoop_->joinable()) {
         unique_lock<mutex> lock(signal_->inMutex_);
-        signal_->inQueue_.push(10000);
         signal_->inCond_.notify_all();
         lock.unlock();
         inputLoop_->join();
@@ -149,7 +148,6 @@ int32_t VDecDemo::Stop()
 
     if (outputLoop_ != nullptr && outputLoop_->joinable()) {
         unique_lock<mutex> lock(signal_->outMutex_);
-        signal_->outQueue_.push(10000);
         signal_->outCond_.notify_all();
         lock.unlock();
         outputLoop_->join();
@@ -211,14 +209,21 @@ void VDecDemo::CheckCodecType()
     }
 }
 
-void VDecDemo::InputFunc()
+const int32_t* VDecDemo::GetFrameLen()
 {
-    const int32_t *frameLen = nullptr;
+    const int32_t* frameLen = nullptr;
     if (isW) {
         frameLen = ES_W;
+        return frameLen;
     } else {
         frameLen = ES_R;
+        return frameLen;
     }
+}
+
+void VDecDemo::InputFunc()
+{
+    const int32_t *frameLen =GetFrameLen();
 
     while (true) {
         if (!isRunning_.load()) {

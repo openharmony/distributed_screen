@@ -69,6 +69,7 @@ private:
     int32_t Reset();
     int32_t Release();
     int32_t SetSurface();
+    const int32_t *GetFrameLen();
     void InputFunc();
     void OutputFunc();
     void CheckCodecType();
