@@ -217,11 +217,10 @@ const int32_t* VDecDemo::GetFrameLen()
     const int32_t* frameLen = nullptr;
     if (isW) {
         frameLen = ES_W;
-        return frameLen;
     } else {
         frameLen = ES_R;
-        return frameLen;
     }
+    return frameLen;
 }
 
 void VDecDemo::InputFunc()

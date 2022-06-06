@@ -19,6 +19,7 @@
 #include "display_manager.h"
 #include "dscreen_source_handler.h"
 #include "dscreen_sink_handler.h"
+#include "dscreen_util.h"
 #include "idistributed_hardware_sink.h"
 #include "idistributed_hardware_source.h"
 #include "screen.h"
@@ -226,14 +227,14 @@ static void PrintNodeProperty(NodeBasicInfo *nodeInfo)
     if (GetNodeKeyInfo(g_pkgName, nodeInfo->networkId, key, udid, UDID_BUF_LEN) != 0) {
         printf("GetNodeKeyInfo Fail!\n");
     } else {
-        printf("Udid = %s\n", udid);
+        printf("Udid = %s\n", GetAnonyString((char *)udid).c_str());
     }
     key = NODE_KEY_UUID;
     unsigned char uuid[UUID_BUF_LEN] = {0};
     if (GetNodeKeyInfo(g_pkgName, nodeInfo->networkId, key, uuid, UUID_BUF_LEN) != 0) {
         printf("GetNodeKeyInfo Fail!\n");
     } else {
-        printf("Uuid = %s\n", uuid);
+        printf("Uuid = %s\n", GetAnonyString((char *)uuid).c_str());
     }
 }
 
