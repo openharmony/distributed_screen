@@ -66,7 +66,7 @@ vector<sptr<Screen>> QueryRemoteScreenInfo()
         }
         cout << endl;
         cout << "--------screen id " << screen->GetId() << "---------" << endl;
-        cout << "screen name: " << screen->GetName() << endl;
+        cout << "screen name: " << GetAnonyString(screen->GetName()).c_str() << endl;
         cout << "width: " << screen->GetWidth() << endl;
         cout << "height: " << screen->GetHeight() << endl;
         cout << "-------------------------------------------" << endl;
@@ -221,7 +221,7 @@ static void PrintNodeProperty(NodeBasicInfo *nodeInfo)
     }
 
     printf("DeviceName = %s\n", nodeInfo->deviceName);
-    printf("NetworkId = %s\n", nodeInfo->networkId);
+    printf("NetworkId = %s\n", GetAnonyString(nodeInfo->networkId).c_str());
     NodeDeviceInfoKey key = NODE_KEY_UDID;
     unsigned char udid[UDID_BUF_LEN] = {0};
     if (GetNodeKeyInfo(g_pkgName, nodeInfo->networkId, key, udid, UDID_BUF_LEN) != 0) {
