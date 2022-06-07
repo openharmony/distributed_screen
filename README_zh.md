@@ -24,7 +24,7 @@
 ## **目录**
 
 ```
-/foundation/distributedhardware/distributedscreen 
+/foundation/distributedhardware/distributed_screen
 ├── common                                  # 分布式屏幕公共数据定义，包括常量、错误码、日志、工具等 
 ├── interface                               # 分布式屏幕SDK，包含主控端和被控端服务调用接口 
 ├── sa_profile                              # 分布式屏幕的SA配置信息 

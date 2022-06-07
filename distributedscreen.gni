@@ -11,7 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-distributedscreen_path = "//foundation/distributedhardware/distributedscreen"
+distributedscreen_path = "//foundation/distributedhardware/distributed_screen"
 distributedhardwarefwk_path =
     "//foundation/distributedhardware/distributedhardwarefwk"
 windowmanager_path = "//foundation/windowmanager"

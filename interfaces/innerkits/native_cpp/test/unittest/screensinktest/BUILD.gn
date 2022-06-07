@@ -13,7 +13,7 @@
 
 import("//build/test.gni")
 import(
-    "//foundation/distributedhardware/distributedscreen/distributedscreen.gni")
+    "//foundation/distributedhardware/distributed_screen/distributedscreen.gni")
 
 module_out_path = "distributed_screen/source_trans_test"
 
@@ -50,7 +50,7 @@ ohos_unittest("ScreenSinkTest") {
   deps = [
     "${fwk_utils_path}:distributedhardwareutils",
     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
-    "//foundation/distributedhardware/distributedscreen/interfaces/innerkits/native_cpp/screen_sink:distributed_screen_sink_sdk",
+    "//foundation/distributedhardware/distributed_screen/interfaces/innerkits/native_cpp/screen_sink:distributed_screen_sink_sdk",
     "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy:samgr_proxy",
     "//third_party/googletest:gmock",
     "//third_party/googletest:gtest_main",

@@ -12,7 +12,7 @@
 # limitations under the License.
 
 import("//build/test.gni")
-import("//foundation/distributedhardware/distributedscreen/distributedscreen.gni")
+import("//foundation/distributedhardware/distributed_screen/distributedscreen.gni")
 
 module_out_path = "distributed_screen/services/utils_test"
 
@@ -55,7 +55,7 @@ ohos_unittest("UtilsTest") {
     "${graphicstandard_path}/frameworks/surface:surface",
     "${graphicstandard_path}/rosen/modules/render_service_client:librender_service_client",
     "${windowmanager_path}/wm:libwm",
-    "//foundation/distributedhardware/distributedscreen/services/screenservice/sinkservice:distributed_screen_sink",
+    "//foundation/distributedhardware/distributed_screen/services/screenservice/sinkservice:distributed_screen_sink",
   ]
 
  external_deps = [
