@@ -41,10 +41,8 @@ uint64_t ScreenMgrAdapter::CreateVirtualScreen(const std::string &devId, const s
 {
     DHLOGI("CreateVirtualScreen, width: %u, height: %u", videoParam->GetScreenWidth(),
         videoParam->GetScreenHeight());
-    int32_t devIdsize = devId.size() / 2;
-    int32_t dhIdsize = dhId.size() / 2;
-    std::string screenName = DSCREEN_PREFIX + SEPERATOR + devId.substr(0, devIdsize) +
-                             SEPERATOR + dhId.substr(0, dhIdsize);
+    std::string screenName = DSCREEN_PREFIX + SEPERATOR + GetInterruptString(devId) +
+                             SEPERATOR + GetInterruptString(dhId);
     auto iter = screenIdMap_.find(screenName);
     if (iter != screenIdMap_.end()) {
         DHLOGI("remove an exist virtual screen.");

@@ -94,5 +94,19 @@ std::string GetAnonyString(const std::string &value)
 
     return res;
 }
+
+std::string GetInterruptString(const std::string &value)
+{
+    constexpr size_t INT32_MIN_ID_LENGTH = 3;
+    std::string res;
+    size_t strlen = value.length();
+    if(strlen <= INT32_MIN_ID_LENGTH) {
+        res = value;
+    } else  {
+        res = value.substr(0, strlen / 2);
+    }
+
+    return res;
+}
 } // namespace DistributedHardware
 } // namespace OHOS
