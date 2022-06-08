@@ -35,7 +35,7 @@ ohos_fuzztest("DscreenHandlerFuzzTest") {
     "${common_path}/include",
     "${distributedscreen_path}/screenhandler/include",
     "${fwk_services_path}/distributedhardwarefwkserviceimpl/include/localhardwaremanager",
-    "//foundation/distributedhardware/distributedhardwarefwk/common/utils/include",
+    "//foundation/distributedhardware/distributed_hardware_fwk/common/utils/include",
   ]
 
   cflags = [
