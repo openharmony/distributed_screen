@@ -13,7 +13,7 @@
 
 distributedscreen_path = "//foundation/distributedhardware/distributed_screen"
 distributedhardwarefwk_path =
-    "//foundation/distributedhardware/distributedhardwarefwk"
+    "//foundation/distributedhardware/distributed_hardware_fwk"
 windowmanager_path = "//foundation/windowmanager"
 mediastandard_path = "//foundation/multimedia/media_standard"
 graphicstandard_path = "//foundation/graphic/graphic_2d"
