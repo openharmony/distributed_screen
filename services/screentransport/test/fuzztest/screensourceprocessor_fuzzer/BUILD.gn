@@ -15,7 +15,7 @@
 import("//build/config/features.gni")
 import("//build/test.gni")
 import(
-    "//foundation/distributedhardware/distributedscreen/distributedscreen.gni")
+    "//foundation/distributedhardware/distributed_screen/distributedscreen.gni")
 
 ##############################fuzztest##########################################
 ohos_fuzztest("ScreenSourceProcessorFuzzTest") {

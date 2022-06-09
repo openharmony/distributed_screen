@@ -13,7 +13,7 @@
 
 import("//build/test.gni")
 import(
-    "//foundation/distributedhardware/distributedscreen/distributedscreen.gni")
+    "//foundation/distributedhardware/distributed_screen/distributedscreen.gni")
 
 module_out_path = "distributed_screen/soft_bus_adapter_test"
 

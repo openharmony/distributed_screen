@@ -14,7 +14,7 @@
 import("//build/ohos.gni")
 import("//build/ohos_var.gni")
 import(
-    "//foundation/distributedhardware/distributedscreen/distributedscreen.gni")
+    "//foundation/distributedhardware/distributed_screen/distributedscreen.gni")
 
 ohos_shared_library("distributed_screen_handler") {
   include_dirs = [

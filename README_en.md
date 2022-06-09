@@ -21,7 +21,7 @@ The system architecture is shown in the figure below:
 ## **Directory**
 
 ```
-/foundation/distributedhardware/distributedscreen 
+/foundation/distributedhardware/distributed_screen
 ├── common                                  # Distributed screen common data definitions, including constants, error codes, logs, tools, and so on
 ├── interface                               # Distributed screen SDK, including master side and controlled side service call interface调用接口 
 ├── sa_profile                              # SA configuration information for distributed screens
