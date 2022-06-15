@@ -12,23 +12,126 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "dscreen_hisysevent.h"
 
 #include <unistd.h>
 
 #include "dscreen_errcode.h"
 #include "dscreen_log.h"
-#include "dscreen_hisysevent.h"
 
 namespace OHOS {
 namespace DistributedHardware {
-void ReportScreenEvent(const std::string &eventName, const std::string &errMsg)
+void ReportSaFail(const std::string &eventName, int32_t errCode, int32_t saId, const std::string &errMsg)
 {
     int32_t res = OHOS::HiviewDFX::HiSysEvent::Write(
         OHOS::HiviewDFX::HiSysEvent::Domain::DISTRIBUTED_SCREEN,
         eventName,
         OHOS::HiviewDFX::HiSysEvent::EventType::FAULT,
-        "PID", getpid(),
-        "UID", getuid(),
+        "ERRCODE", errCode,
+        "SAID", saId,
+        "MSG", errMsg);
+    if (res != DH_SUCCESS) {
+        DHLOGE("Write HiSysEvent error, res:%d", res);
+    }
+}
+
+void ReportRegisterFail(const std::string &eventName, int32_t errCode, const std::string &devId,
+    const std::string &dhId, const std::string &errMsg)
+{
+    int32_t res = OHOS::HiviewDFX::HiSysEvent::Write(
+        OHOS::HiviewDFX::HiSysEvent::Domain::DISTRIBUTED_SCREEN,
+        eventName,
+        OHOS::HiviewDFX::HiSysEvent::EventType::FAULT,
+        "ERRCODE", errCode,
+        "DEVID", devId,
+        "DHID", dhId,
+        "MSG", errMsg);
+    if (res != DH_SUCCESS) {
+        DHLOGE("Write HiSysEvent error, res:%d", res);
+    }
+}
+
+void ReportUnRegisterFail(const std::string &eventName, int32_t errCode, const std::string &devId,
+    const std::string &dhId, const std::string &errMsg)
+{
+    int32_t res = OHOS::HiviewDFX::HiSysEvent::Write(
+        OHOS::HiviewDFX::HiSysEvent::Domain::DISTRIBUTED_SCREEN,
+        eventName,
+        OHOS::HiviewDFX::HiSysEvent::EventType::FAULT,
+        "ERRCODE", errCode,
+        "DEVID", devId,
+        "DHID", dhId,
+        "MSG", errMsg);
+    if (res != DH_SUCCESS) {
+        DHLOGE("Write HiSysEvent error, res:%d", res);
+    }
+}
+
+void ReportOptFail(const std::string &eventName, int32_t errCode, const std::string &errMsg)
+{
+    int32_t res = OHOS::HiviewDFX::HiSysEvent::Write(
+        OHOS::HiviewDFX::HiSysEvent::Domain::DISTRIBUTED_SCREEN,
+        eventName,
+        OHOS::HiviewDFX::HiSysEvent::EventType::FAULT,
+        "ERRCODE", errCode,
+        "MSG", errMsg);
+    if (res != DH_SUCCESS) {
+        DHLOGE("Write HiSysEvent error, res:%d", res);
+    }
+}
+
+void ReportSaEvent(const std::string &eventName, int32_t saId, const std::string &errMsg)
+{
+    int32_t res = OHOS::HiviewDFX::HiSysEvent::Write(
+        OHOS::HiviewDFX::HiSysEvent::Domain::DISTRIBUTED_SCREEN,
+        eventName,
+        OHOS::HiviewDFX::HiSysEvent::EventType::BEHAVIOR,
+        "SAID", saId,
+        "MSG", errMsg);
+    if (res != DH_SUCCESS) {
+        DHLOGE("Write HiSysEvent error, res:%d", res);
+    }
+}
+
+void ReportRegisterScreenEvent(const std::string &eventName, const std::string &devId, const std::string &dhId,
+    const std::string &errMsg)
+{
+    int32_t res = OHOS::HiviewDFX::HiSysEvent::Write(
+        OHOS::HiviewDFX::HiSysEvent::Domain::DISTRIBUTED_SCREEN,
+        eventName,
+        OHOS::HiviewDFX::HiSysEvent::EventType::BEHAVIOR,
+        "DEVID", devId,
+        "DHID", dhId,
+        "MSG", errMsg);
+    if (res != DH_SUCCESS) {
+        DHLOGE("Write HiSysEvent error, res:%d", res);
+    }
+}
+
+void ReportUnRegisterScreenEvent(const std::string &eventName, const std::string &devId, const std::string &dhId,
+    const std::string &errMsg)
+{
+    int32_t res = OHOS::HiviewDFX::HiSysEvent::Write(
+        OHOS::HiviewDFX::HiSysEvent::Domain::DISTRIBUTED_SCREEN,
+        eventName,
+        OHOS::HiviewDFX::HiSysEvent::EventType::BEHAVIOR,
+        "DEVID", devId,
+        "DHID", dhId,
+        "MSG", errMsg);
+    if (res != DH_SUCCESS) {
+        DHLOGE("Write HiSysEvent error, res:%d", res);
+    }
+}
+
+void ReportScreenMirrorEvent(const std::string &eventName, const std::string &devId, const std::string &dhId,
+    const std::string &errMsg)
+{
+    int32_t res = OHOS::HiviewDFX::HiSysEvent::Write(
+        OHOS::HiviewDFX::HiSysEvent::Domain::DISTRIBUTED_SCREEN,
+        eventName,
+        OHOS::HiviewDFX::HiSysEvent::EventType::BEHAVIOR,
+        "DEVID", devId,
+        "DHID", dhId,
         "MSG", errMsg);
     if (res != DH_SUCCESS) {
         DHLOGE("Write HiSysEvent error, res:%d", res);

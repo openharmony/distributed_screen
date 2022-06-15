@@ -20,6 +20,7 @@
 
 #include "dscreen_constants.h"
 #include "dscreen_errcode.h"
+#include "dscreen_hisysevent.h"
 #include "dscreen_log.h"
 #include "dscreen_util.h"
 #include "screen_manager_adapter.h"
@@ -182,8 +183,7 @@ void DScreen::HandleTask(const std::shared_ptr<Task> &task)
 void DScreen::HandleEnable(const std::string &param, const std::string &taskId)
 {
     DHLOGI("HandleEnable, devId: %s, dhId: %s", GetAnonyString(devId_).c_str(), GetAnonyString(dhId_).c_str());
-    if (curState_ == ENABLED || curState_ == ENABLING ||
-        curState_ == CONNECTING || curState_ == CONNECTED) {
+    if (curState_ == ENABLED || curState_ == ENABLING || curState_ == CONNECTING || curState_ == CONNECTED) {
         dscreenCallback_->OnRegResult(shared_from_this(), taskId, DH_SUCCESS, "");
         return;
     }
@@ -194,19 +194,13 @@ void DScreen::HandleEnable(const std::string &param, const std::string &taskId)
     }
 
     json attrJson = json::parse(param, nullptr, false);
-    if (attrJson.is_discarded()) {
-        DHLOGE("enable param json is invalid.");
+    int32_t ret = CheckJsonData(attrJson);
+    if (ret != DH_SUCCESS) {
+        DHLOGE("check json data failed.");
         dscreenCallback_->OnRegResult(shared_from_this(), taskId, ERR_DH_SCREEN_SA_ENABLE_FAILED,
             "enable param json is invalid.");
-        return;
-    }
-
-    if (!attrJson.contains(KEY_SCREEN_WIDTH) ||
-        !attrJson.contains(KEY_SCREEN_HEIGHT) ||
-        !attrJson.contains(KEY_CODECTYPE)) {
-        DHLOGE("enable param is invalid.");
-        dscreenCallback_->OnRegResult(shared_from_this(), taskId, ERR_DH_SCREEN_SA_ENABLE_FAILED,
-            "enable param is invalid.");
+        ReportRegisterFail(DSCREEN_REGISTER_FAIL, ERR_DH_SCREEN_SA_ENABLE_FAILED, GetAnonyString(devId_).c_str(),
+            GetAnonyString(dhId_).c_str(), "check json data failed.");
         return;
     }
 
@@ -214,11 +208,13 @@ void DScreen::HandleEnable(const std::string &param, const std::string &taskId)
     videoParam_->SetScreenHeight(attrJson[KEY_SCREEN_HEIGHT]);
 
     // negotiate codecType
-    int32_t ret = NegotiateCodecType(attrJson[KEY_CODECTYPE]);
+    ret = NegotiateCodecType(attrJson[KEY_CODECTYPE]);
     if (ret != DH_SUCCESS) {
         DHLOGE("negotiate codec type failed.");
         dscreenCallback_->OnRegResult(shared_from_this(), taskId, ERR_DH_SCREEN_SA_ENABLE_FAILED,
             "negotiate codec type failed.");
+        ReportRegisterFail(DSCREEN_REGISTER_FAIL, ERR_DH_SCREEN_SA_ENABLE_FAILED, GetAnonyString(devId_).c_str(),
+            GetAnonyString(dhId_).c_str(), "negotiate codec type failed.");
         return;
     }
 
@@ -227,11 +223,30 @@ void DScreen::HandleEnable(const std::string &param, const std::string &taskId)
         DHLOGE("create virtual screen failed.");
         dscreenCallback_->OnRegResult(shared_from_this(), taskId, ERR_DH_SCREEN_SA_ENABLE_FAILED,
             "create virtual screen failed.");
+        ReportRegisterFail(DSCREEN_REGISTER_FAIL, ERR_DH_SCREEN_SA_ENABLE_FAILED, GetAnonyString(devId_).c_str(),
+            GetAnonyString(dhId_).c_str(), "create virtual screen failed.");
         return;
     }
     screenId_ = screenId;
     SetState(ENABLED);
     dscreenCallback_->OnRegResult(shared_from_this(), taskId, DH_SUCCESS, "");
+    ReportRegisterScreenEvent(DSCREEN_REGISTER, GetAnonyString(devId_).c_str(), GetAnonyString(dhId_).c_str(),
+        "dscreen enable success.");
+}
+
+int32_t DScreen::CheckJsonData(json &attrJson)
+{
+    if (attrJson.is_discarded()) {
+        DHLOGE("enable param json is invalid.");
+        return ERR_DH_SCREEN_SA_ENABLE_JSON_ERROR;
+    }
+
+    if (!attrJson.contains(KEY_SCREEN_WIDTH) || !attrJson.contains(KEY_SCREEN_HEIGHT) ||
+        !attrJson.contains(KEY_CODECTYPE)) {
+        DHLOGE("enable param is invalid.");
+        return ERR_DH_SCREEN_SA_ENABLE_JSON_ERROR;
+    }
+    return DH_SUCCESS;
 }
 
 int32_t DScreen::NegotiateCodecType(const std::string &remoteCodecInfoStr)
@@ -284,10 +299,14 @@ void DScreen::HandleDisable(const std::string &taskId)
         DHLOGE("remove virtual screen failed.");
         dscreenCallback_->OnUnregResult(shared_from_this(), taskId, ERR_DH_SCREEN_SA_DISABLE_FAILED,
             "remove virtual screen failed.");
+        ReportUnRegisterFail(DSCREEN_UNREGISTER_FAIL, ERR_DH_SCREEN_SA_DISABLE_FAILED, GetAnonyString(devId_).c_str(),
+            GetAnonyString(dhId_).c_str(), "remove virtual screen failed.");
         return;
     }
     SetState(DISABLED);
     dscreenCallback_->OnUnregResult(shared_from_this(), taskId, DH_SUCCESS, "");
+    ReportUnRegisterScreenEvent(DSCREEN_UNREGISTER, GetAnonyString(devId_).c_str(), GetAnonyString(dhId_).c_str(),
+        "dscreen disable success.");
 }
 
 void DScreen::HandleConnect()
@@ -311,6 +330,8 @@ void DScreen::HandleConnect()
         return;
     }
     SetState(CONNECTED);
+    ReportScreenMirrorEvent(DSCREEN_PROJECT_START, GetAnonyString(devId_).c_str(), GetAnonyString(dhId_).c_str(),
+        "dscreen connect success");
 }
 
 void DScreen::HandleDisconnect()
@@ -329,6 +350,8 @@ void DScreen::HandleDisconnect()
         return;
     }
     SetState(ENABLED);
+    ReportScreenMirrorEvent(DSCREEN_PROJECT_END, GetAnonyString(devId_).c_str(), GetAnonyString(dhId_).c_str(),
+        "dscreen disconnect success");
 }
 
 int32_t DScreen::SetUp()
