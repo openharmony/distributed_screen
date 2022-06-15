@@ -16,6 +16,7 @@
 #include "screen_sink_trans.h"
 
 #include "dscreen_errcode.h"
+#include "dscreen_hisysevent.h"
 #include "dscreen_hitrace.h"
 #include "dscreen_log.h"
 #include "image_sink_processor.h"
@@ -247,6 +248,7 @@ int32_t ScreenSinkTrans::RegisterChannelListener()
     int32_t ret = screenChannel_->CreateSession(listener);
     if (ret != DH_SUCCESS) {
         DHLOGE("%s: Register channel listenner failed ret: %d.", LOG_TAG, ret);
+        ReportOptFail(DSCREEN_OPT_FAIL, ret, "dscreen sink Create session failed.");
         return ret;
     }
 
@@ -266,6 +268,7 @@ int32_t ScreenSinkTrans::RegisterProcessorListener(const VideoParam &localParam,
     int32_t ret = imageProcessor_->ConfigureImageProcessor(localParam, remoteParam, listener);
     if (ret != DH_SUCCESS) {
         DHLOGE("%s: Config image processor failed ret: %d.", LOG_TAG, ret);
+        ReportOptFail(DSCREEN_OPT_FAIL, ret, "Config image processor failed.");
         return ret;
     }
 

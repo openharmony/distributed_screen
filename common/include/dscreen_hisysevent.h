@@ -22,15 +22,32 @@
 
 namespace OHOS {
 namespace DistributedHardware {
-const std::string SA_ERROR = "DSCREEN_SA_START_ERROR";
-const std::string WINDOW_ERROR = "DSCREEN_WINDOW_ERROR";
-const std::string VIRTUALSCREEN_ERROR = "DSCREEN_VIRTUALSCREEN_ERROR";
-const std::string VIDEO_DECODER_ERROR = "DSCREEN_VIDEO_DECODER_ERROR";
-const std::string VIDEO_ENCODER_ERROR = "DSCREEN_VIDEO_ENCODER_ERROR";
-const std::string SOFTBUS_SESSIONSERVER_ERROR = "DSCREEN_SOFTBUS_SESSIONSERVER_ERROR";
-const std::string SOFTBUS_SESSION_ERROR = "DSCREEN_SOFTBUS_SESSION_ERROR";
+const std::string DSCREEN_INIT_FAIL = "DSCREEN_INIT_FAIL";
+const std::string DSCREEN_REGISTER_FAIL = "DSCREEN_REGISTER_FAIL";
+const std::string DSCREEN_UNREGISTER_FAIL = "DSCREEN_UNREGISTER_FAIL";
+const std::string DSCREEN_OPT_FAIL = "DSCREEN_OPT_FAIL";
 
-void ReportScreenEvent(const std::string &eventName, const std::string &errMsg);
+const std::string DSCREEN_INIT = "DSCREEN_INIT";
+const std::string DSCREEN_REGISTER = "DSCREEN_REGISTER";
+const std::string DSCREEN_UNREGISTER = "DSCREEN_UNREGISTER";
+const std::string DSCREEN_PROJECT_START = "DSCREEN_PROJECT_START";
+const std::string DSCREEN_PROJECT_END = "DSCREEN_PROJECT_END";
+const std::string DSCREEN_EXIT = "DSCREEN_EXIT";
+
+void ReportSaFail(const std::string &eventName, int32_t errCode, int32_t saId, const std::string &errMsg);
+void ReportRegisterFail(const std::string &eventName, int32_t errCode, const std::string &devId,
+    const std::string &dhId, const std::string &errMsg);
+void ReportUnRegisterFail(const std::string &eventName, int32_t errCode, const std::string &devId,
+    const std::string &dhId, const std::string &errMsg);
+void ReportOptFail(const std::string &eventName, int32_t errCode, const std::string &errMsg);
+
+void ReportSaEvent(const std::string &eventName, int32_t saId, const std::string &errMsg);
+void ReportRegisterScreenEvent(const std::string &eventName, const std::string &devId, const std::string &dhId,
+    const std::string &errMsg);
+void ReportUnRegisterScreenEvent(const std::string &eventName, const std::string &devId, const std::string &dhId,
+    const std::string &errMsg);
+void ReportScreenMirrorEvent(const std::string &eventName, const std::string &devId, const std::string &dhId,
+    const std::string &errMsg);
 } // namespace DistributedHardware
 } // namespace OHOS
 #endif

@@ -16,6 +16,7 @@
 #include "image_source_processor.h"
 
 #include "dscreen_errcode.h"
+#include "dscreen_hisysevent.h"
 #include "dscreen_hitrace.h"
 #include "dscreen_log.h"
 
@@ -47,6 +48,7 @@ int32_t ImageSourceProcessor::ReleaseImageProcessor()
     DHLOGI("%s: ReleaseImageProcessor.", LOG_TAG);
     if (!imageEncoder_) {
         DHLOGE("%s: Create screen encoder failed.", LOG_TAG);
+        ReportOptFail(DSCREEN_OPT_FAIL, ERR_DH_SCREEN_TRANS_NULL_VALUE, "ReleaseImageProcessor encoder is nullptr.");
         return ERR_DH_SCREEN_TRANS_NULL_VALUE;
     }
 
@@ -55,6 +57,7 @@ int32_t ImageSourceProcessor::ReleaseImageProcessor()
     FinishTrace(DSCREEN_HITRACE_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGE("%s: Release screen encoder failed ret: %d.", LOG_TAG, ret);
+        ReportOptFail(DSCREEN_OPT_FAIL, ret, "Release screen encoder failed.");
         return ret;
     }
 
@@ -66,6 +69,7 @@ int32_t ImageSourceProcessor::StartImageProcessor()
     DHLOGI("%s: StartImageProcessor.", LOG_TAG);
     if (!imageEncoder_) {
         DHLOGE("%s: Create screen encoder failed.", LOG_TAG);
+        ReportOptFail(DSCREEN_OPT_FAIL, ERR_DH_SCREEN_TRANS_NULL_VALUE, "StartImageProcessor encoder is nullptr.");
         return ERR_DH_SCREEN_TRANS_NULL_VALUE;
     }
 
@@ -74,6 +78,7 @@ int32_t ImageSourceProcessor::StartImageProcessor()
     FinishTrace(DSCREEN_HITRACE_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGE("%s: Start screen encoder failed ret: %d.", LOG_TAG, ret);
+        ReportOptFail(DSCREEN_OPT_FAIL, ret, "Start screen encoder failed.");
         return ret;
     }
 
@@ -85,6 +90,7 @@ int32_t ImageSourceProcessor::StopImageProcessor()
     DHLOGI("%s: StopImageProcessor.", LOG_TAG);
     if (!imageEncoder_) {
         DHLOGE("%s: Create screen encoder failed.", LOG_TAG);
+        ReportOptFail(DSCREEN_OPT_FAIL, ERR_DH_SCREEN_TRANS_NULL_VALUE, "StopImageProcessor encoder is nullptr.");
         return ERR_DH_SCREEN_TRANS_NULL_VALUE;
     }
 
@@ -93,6 +99,7 @@ int32_t ImageSourceProcessor::StopImageProcessor()
     FinishTrace(DSCREEN_HITRACE_LABEL);
     if (ret != DH_SUCCESS) {
         DHLOGE("%s: Stop screen encoder failed ret: %d.", LOG_TAG, ret);
+        ReportOptFail(DSCREEN_OPT_FAIL, ret, "Stop screen encoder failed.");
         return ret;
     }
 
