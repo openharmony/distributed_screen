@@ -23,10 +23,10 @@
 
 namespace OHOS {
 namespace DistributedHardware {
-typedef enum {
+enum DScreenSAState : uint32_t {
     DSCREEN_SA_EXIT_STATE_START = 0,
     DSCREEN_SA_EXIT_STATE_STOP = 1
-} DScreenSAState;
+};
 
 DScreenSAState g_sinkSAState = DSCREEN_SA_EXIT_STATE_START;
 DScreenSAState g_sourceSAState = DSCREEN_SA_EXIT_STATE_START;
