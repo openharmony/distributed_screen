@@ -15,7 +15,10 @@
 
 #include "dscreen_source_proxy.h"
 
-#include "parcel.h"
+#include "idscreen_source_callback.h"
+#include "iremote_object.h"
+#include "message_option.h"
+#include "message_parcel.h"
 
 #include "dscreen_errcode.h"
 #include "dscreen_log.h"

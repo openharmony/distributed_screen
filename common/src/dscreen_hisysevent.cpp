@@ -14,7 +14,7 @@
  */
 #include "dscreen_hisysevent.h"
 
-#include <unistd.h>
+#include "hisysevent.h"
 
 #include "dscreen_errcode.h"
 #include "dscreen_log.h"
