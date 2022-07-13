@@ -15,6 +15,8 @@
 
 #include "dscreen_sa_process_state.h"
 
+#include <cstdint>
+#include <cstdlib>
 #include <mutex>
 
 #include "dscreen_constants.h"

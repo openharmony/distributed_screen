@@ -16,7 +16,9 @@
 #ifndef OHOS_DSCREEN_SOURCE_CALLBACK_H
 #define OHOS_DSCREEN_SOURCE_CALLBACK_H
 
+#include <cstdint>
 #include <map>
+#include <string>
 
 #include "idistributed_hardware_source.h"
 

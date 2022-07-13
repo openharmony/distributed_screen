@@ -17,7 +17,12 @@
 #define OHOS_DSCREEN_SOURCE_HANDLER_H
 
 #include <condition_variable>
+#include <cstdint>
+#include <memory>
 #include <mutex>
+
+#include "iremote_object.h"
+#include "refbase.h"
 
 #include "dscreen_source_callback.h"
 #include "idscreen_source.h"

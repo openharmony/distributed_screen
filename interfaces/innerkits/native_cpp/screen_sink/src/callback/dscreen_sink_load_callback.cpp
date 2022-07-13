@@ -12,9 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "dscreen_sink_load_callback.h"
 
-#include <unistd.h>
+#include "dscreen_sink_load_callback.h"
 
 #include "dscreen_constants.h"
 #include "dscreen_errcode.h"
@@ -22,6 +21,7 @@
 #include "dscreen_log.h"
 #include "dscreen_sink_handler.h"
 
+namespace OHOS { class IRemoteObject; }
 namespace OHOS {
 namespace DistributedHardware {
 DScreenSinkLoadCallback::DScreenSinkLoadCallback(

@@ -15,8 +15,6 @@
 
 #include "dscreen_source_callback.h"
 
-#include "utility"
-
 #include "dscreen_errcode.h"
 #include "dscreen_log.h"
 

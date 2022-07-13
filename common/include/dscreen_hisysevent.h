@@ -18,8 +18,6 @@
 
 #include <string>
 
-#include "hisysevent.h"
-
 namespace OHOS {
 namespace DistributedHardware {
 const std::string DSCREEN_INIT_FAIL = "DSCREEN_INIT_FAIL";

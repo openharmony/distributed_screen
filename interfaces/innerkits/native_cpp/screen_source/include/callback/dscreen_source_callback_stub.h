@@ -16,12 +16,16 @@
 #ifndef OHOS_DSCREEN_SOURCE_CALLBACK_STUB_H
 #define OHOS_DSCREEN_SOURCE_CALLBACK_STUB_H
 
+#include <cstdint>
 #include <map>
 
 #include "iremote_stub.h"
+#include "refbase.h"
 
 #include "idscreen_source_callback.h"
 
+namespace OHOS { class MessageOption; }
+namespace OHOS { class MessageParcel; }
 namespace OHOS {
 namespace DistributedHardware {
 class DScreenSourceCallbackStub : public IRemoteStub<IDScreenSourceCallback> {

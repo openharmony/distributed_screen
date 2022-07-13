@@ -16,11 +16,15 @@
 #ifndef OHOS_DSCREEN_SOURCE_PROXY_H
 #define OHOS_DSCREEN_SOURCE_PROXY_H
 
+#include <cstdint>
+
+#include "idistributed_hardware_source.h"
+#include "idscreen_source.h"
 #include "iremote_broker.h"
 #include "iremote_proxy.h"
-#include "idscreen_source.h"
-#include "idistributed_hardware_source.h"
+#include "refbase.h"
 
+namespace OHOS { class IRemoteObject; }
 namespace OHOS {
 namespace DistributedHardware {
 class DScreenSourceProxy : public IRemoteProxy<IDScreenSource> {
