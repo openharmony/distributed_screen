@@ -14,14 +14,13 @@
  */
 #include "dscreen_source_load_callback.h"
 
-#include <unistd.h>
-
 #include "dscreen_constants.h"
 #include "dscreen_errcode.h"
 #include "dscreen_hisysevent.h"
 #include "dscreen_log.h"
 #include "dscreen_source_handler.h"
 
+namespace OHOS { class IRemoteObject; }
 namespace OHOS {
 namespace DistributedHardware {
 DScreenSourceLoadCallback::DScreenSourceLoadCallback(

@@ -15,7 +15,16 @@
 
 #include "dscreen_source_handler.h"
 
+#include <chrono>
+#include <new>
+#include <string>
+
+#include "errors.h"
+#include "hitrace_meter.h"
+#include "idscreen_source_callback.h"
 #include "if_system_ability_manager.h"
+#include "iremote_broker.h"
+#include "isystem_ability_load_callback.h"
 #include "iservice_registry.h"
 
 #include "dscreen_constants.h"

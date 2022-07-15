@@ -12,9 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 #include "dscreen_hisysevent.h"
 
-#include <unistd.h>
+#include "hisysevent.h"
 
 #include "dscreen_errcode.h"
 #include "dscreen_log.h"

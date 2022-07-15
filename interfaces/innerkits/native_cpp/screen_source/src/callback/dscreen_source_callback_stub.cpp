@@ -15,9 +15,16 @@
 
 #include "dscreen_source_callback_stub.h"
 
+#include <string>
+
+#include "idscreen_source_callback.h"
+#include "ipc_types.h"
+#include "message_parcel.h"
+
 #include "dscreen_errcode.h"
 #include "dscreen_log.h"
 
+namespace OHOS { class MessageOption; }
 namespace OHOS {
 namespace DistributedHardware {
 DScreenSourceCallbackStub::DScreenSourceCallbackStub()

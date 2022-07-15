@@ -15,8 +15,15 @@
 
 #include "dscreen_sink_handler.h"
 
+#include <chrono>
+#include <new>
+
+#include "errors.h"
+#include "hitrace_meter.h"
+#include "iremote_broker.h"
 #include "if_system_ability_manager.h"
 #include "iservice_registry.h"
+#include "isystem_ability_load_callback.h"
 
 #include "dscreen_constants.h"
 #include "dscreen_errcode.h"

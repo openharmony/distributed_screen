@@ -17,9 +17,12 @@
 #define OHOS_DSCREEN_SINK_HANDLER_H
 
 #include <condition_variable>
+#include <cstdint>
 #include <mutex>
 
 #include "idistributed_hardware_sink.h"
+#include "iremote_object.h"
+#include "refbase.h"
 #include "single_instance.h"
 
 #include "idscreen_sink.h"

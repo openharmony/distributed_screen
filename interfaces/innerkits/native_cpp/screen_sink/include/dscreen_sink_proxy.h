@@ -16,11 +16,15 @@
 #ifndef OHOS_DSCREEN_SINK_PROXY_H
 #define OHOS_DSCREEN_SINK_PROXY_H
 
+#include <cstdint>
+
 #include "iremote_broker.h"
 #include "iremote_proxy.h"
+#include "refbase.h"
 
 #include "idscreen_sink.h"
 
+namespace OHOS { class IRemoteObject; }
 namespace OHOS {
 namespace DistributedHardware {
 class DScreenSinkProxy : public IRemoteProxy<IDScreenSink> {

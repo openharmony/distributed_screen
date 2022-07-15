@@ -15,7 +15,9 @@
 
 #include "dscreen_sink_proxy.h"
 
-#include "parcel.h"
+#include "iremote_object.h"
+#include "message_option.h"
+#include "message_parcel.h"
 
 #include "dscreen_errcode.h"
 #include "dscreen_log.h"

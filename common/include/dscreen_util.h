@@ -16,6 +16,7 @@
 #ifndef OHOS_DSCREEN_UTIL_H
 #define OHOS_DSCREEN_UTIL_H
 
+#include <cstdint>
 #include <string>
 
 namespace OHOS {

@@ -15,7 +15,6 @@
 #include "video_param.h"
 
 #include "dscreen_constants.h"
-#include "dscreen_errcode.h"
 
 using json = nlohmann::json;
 
