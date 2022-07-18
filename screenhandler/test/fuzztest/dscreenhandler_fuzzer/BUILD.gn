@@ -35,6 +35,7 @@ ohos_fuzztest("DscreenHandlerFuzzTest") {
     "${common_path}/include",
     "${distributedscreen_path}/screenhandler/include",
     "${fwk_services_path}/distributedhardwarefwkserviceimpl/include/localhardwaremanager",
+    "${fwk_services_path}/distributedhardwarefwkserviceimpl/include/resourcemanager",
     "//foundation/distributedhardware/distributed_hardware_fwk/common/utils/include",
   ]
 
